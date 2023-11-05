@@ -10,21 +10,31 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>UserLoginServlet</servlet-name>
-        <servlet-class>dineconnect.servlet.UserLoginServlet</servlet-class>
+        <servlet-name>UserPageServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.UserPageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserLoginServlet</servlet-name>
-        <url-pattern>/userlogin</url-pattern>
+        <servlet-name>UserPageServlet</servlet-name>
+        <url-pattern>/userpage</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>BusinessLoginServlet</servlet-name>
-        <servlet-class>dineconnect.servlet.BusinessLoginServlet</servlet-class>
+        <servlet-name>BusinessPageServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.BusinessPageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>BusinessLoginServlet</servlet-name>
-        <url-pattern>/businesslogin</url-pattern>
+        <servlet-name>BusinessPageServlet</servlet-name>
+        <url-pattern>/businesspage</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>UserHistoryServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.UserHistoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserHistoryServlet</servlet-name>
+        <url-pattern>/userhistory</url-pattern>
     </servlet-mapping>
 
 

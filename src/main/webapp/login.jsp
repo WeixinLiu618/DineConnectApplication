@@ -1,8 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,17 +16,17 @@
     <div class="jumbotron">
         <h1>Welcome to DineConnect</h1>
     </div>
-    <%--Form user for login--%>
-    <form action="userlogin" method="post">
-        Input your User ID: <input type="text" name="userId" />
-        <input type="submit" value="Login as User" />
+    <%--Form for user login--%>
+    <form action="userpage" method="post">
+        Input your User ID: <input type="text" name="userId"/>
+        <input type="submit" value="Login as User"/>
     </form>
     <br>
     <br>
-    <!-- Form for business login -->
-    <form action="businesslogin" method="post">
-        Input your Business ID: <input type="text" name="businessId" />
-        <input type="submit" value="Login as Business" />
+    <%--Form for business login--%>
+    <form action="businesspage" method="post">
+        Input your Business ID: <input type="text" name="businessId"/>
+        <input type="submit" value="Login as Business"/>
     </form>
 
 </div>

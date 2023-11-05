@@ -17,8 +17,8 @@ import java.util.Map;
  * @author Weixin Liu
  */
 
-@WebServlet("/businesslogin")
-public class BusinessLoginServlet extends HttpServlet {
+@WebServlet("/businesspage")
+public class BusinessPageServlet extends HttpServlet {
     protected BusinessDao businessDao;
 
     @Override
@@ -29,7 +29,7 @@ public class BusinessLoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> messages = new HashMap<>();
-        req.setAttribute("message", messages);
+        req.setAttribute("messages", messages);
         Business business = null;
         String businessId = req.getParameter("businessId");
 
@@ -47,7 +47,7 @@ public class BusinessLoginServlet extends HttpServlet {
             req.getRequestDispatcher("/businessPage.jsp").forward(req, resp);
         } else {
             String errorMessage = "Invalid Business ID. Please try again.";
-            req.setAttribute("errorMessage", errorMessage);
+            messages.put("errorMessage",errorMessage);
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
 
