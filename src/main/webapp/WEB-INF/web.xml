@@ -46,6 +46,15 @@
         <url-pattern>/reviewdelete</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>TipDeleteServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.TipDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TipDeleteServlet</servlet-name>
+        <url-pattern>/tipdelete</url-pattern>
+    </servlet-mapping>
+
 
 
     <servlet>

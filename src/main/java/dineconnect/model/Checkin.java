@@ -21,6 +21,11 @@ public class Checkin {
         this.business = business;
     }
 
+    public Checkin(User user, Business business) {
+        this.user = user;
+        this.business = business;
+    }
+
     public int getCheckInId() {
         return checkInId;
     }

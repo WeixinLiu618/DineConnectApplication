@@ -22,7 +22,7 @@
             <thead>
             <tr>
                 <th>No.</th>
-                <th>Text</th>
+                <th>Content</th>
                 <th>Created Time</th>
                 <th>Username</th>
             </tr>

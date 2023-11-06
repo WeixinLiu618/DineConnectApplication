@@ -1,8 +1,6 @@
 package dineconnect.servlet;
 
-import dineconnect.dal.BusinessDao;
-import dineconnect.dal.ReviewDao;
-import dineconnect.dal.UserDao;
+import dineconnect.dal.*;
 import dineconnect.model.Checkin;
 import dineconnect.model.Review;
 import dineconnect.model.Tip;
@@ -30,13 +28,17 @@ public class UserHistoryServlet extends HttpServlet {
 
     protected UserDao userDao;
     protected ReviewDao reviewDao;
+    protected TipDao tipDao;
+    protected CheckinDao checkinDao;
 
 
     @Override
     public void init() throws ServletException {
         userDao = UserDao.getInstance();
-
         reviewDao = ReviewDao.getInstance();
+        tipDao = TipDao.getInstance();
+        checkinDao = CheckinDao.getInstance();
+
 
     }
 
@@ -47,8 +49,7 @@ public class UserHistoryServlet extends HttpServlet {
         Object userAttribute = session.getAttribute("user");
         if (userAttribute != null) {
             user = (User) userAttribute;
-        }
-        else {
+        } else {
             String userId = req.getParameter("userid");
             try {
                 user = userDao.getUserByUserId(userId);
@@ -70,8 +71,8 @@ public class UserHistoryServlet extends HttpServlet {
 
             try {
                 reviewList = reviewDao.getReviewsByUserId(user.getUserId());
-                //TODO tipList = tipDao.getTipsByUserId(user.getUserId());
-                //TODO checkinList = checkinDao.getCheckinsByUserId(user.getUserId());
+                tipList = tipDao.getTipsByUserId(user.getUserId());
+                checkinList = checkinDao.getCheckinsByUserId(user.getUserId());
                 for (Review r : reviewList) {
                     businessNameMap.put(r.getBusiness().getBusinessId(), r.getBusiness().getBusinessName());
                 }

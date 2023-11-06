@@ -3,6 +3,7 @@ package dineconnect.servlet;
 import dineconnect.dal.TipDao;
 import dineconnect.dal.UserDao;
 import dineconnect.model.Review;
+import dineconnect.model.Tip;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,8 +30,15 @@ public class TipDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        String tipId = req.getParameter("tipId");
-
-       // TODO similar to reviewdelete servlet
+        try {
+            Tip tipByTipId = tipDao.getTipByTipId(Integer.parseInt(tipId));
+            String userId = tipByTipId.getUser().getUserId();
+            req.setAttribute("userid", userId);
+            tipDao.delete(tipByTipId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        req.getRequestDispatcher("/userhistory").forward(req, resp);
 
     }
 

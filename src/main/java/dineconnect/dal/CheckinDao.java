@@ -17,6 +17,13 @@ public class CheckinDao {
         connectionManager = new ConnectionManager();
     }
 
+    public static CheckinDao getInstance() {
+        if (checkinDao == null) {
+            checkinDao = new CheckinDao();
+        }
+        return checkinDao;
+    }
+
     public Checkin create(Checkin checkin) throws SQLException {
         String insertCheckinSQL = "INSERT INTO CheckIns(CheckInTime, UserId, BusinessId) VALUES (?,?,?);";
         Connection connection = null;
@@ -28,8 +35,8 @@ public class CheckinDao {
             insertStmt = connection.prepareStatement(insertCheckinSQL,
                     Statement.RETURN_GENERATED_KEYS);
             insertStmt.setTimestamp(1, new Timestamp(checkin.getCheckInTime().getTime()));
-            insertStmt.setString(2, checkin.getBusiness().getBusinessId());
-            insertStmt.setString(3, checkin.getUser().getUserId());
+            insertStmt.setString(2, checkin.getUser().getUserId());
+            insertStmt.setString(3, checkin.getBusiness().getBusinessId());
             insertStmt.executeUpdate();
 
             resultKey = insertStmt.getGeneratedKeys();
@@ -57,12 +64,6 @@ public class CheckinDao {
         }
     }
 
-    public static CheckinDao getInstance() {
-        if (checkinDao == null) {
-            checkinDao = new CheckinDao();
-        }
-        return checkinDao;
-    }
 
     public Checkin getCheckinByCheckinId(int checkinId) throws SQLException {
         BusinessDao businessDao = BusinessDao.getInstance();
@@ -151,7 +152,7 @@ public class CheckinDao {
     public List<Checkin> getCheckinsByUserId(String userId) throws SQLException {
         BusinessDao businessDao = BusinessDao.getInstance();
         UserDao userDao = UserDao.getInstance();
-        String selectCheckinByUserIdSQL = "SELECT * FROM Checkin WHERE Checkin.UserId=?;";
+        String selectCheckinByUserIdSQL = "SELECT * FROM Checkins WHERE Checkins.UserId=?;";
 
         Connection connection = null;
         PreparedStatement selectStmt = null;
