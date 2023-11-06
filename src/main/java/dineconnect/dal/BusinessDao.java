@@ -1,6 +1,7 @@
 package dineconnect.dal;
 
 import dineconnect.model.Business;
+import dineconnect.model.BusinessAlcohol;
 import dineconnect.model.City;
 
 import java.math.BigDecimal;
@@ -73,12 +74,7 @@ public class BusinessDao {
     }
 
     public Business getBusinessByBusinessId(String businessId) throws SQLException {
-        String selectBusinessByBusinessIdSQL = "SELECT BusinessName, Address, PostalCode, BusinessAlcohol.AlcoholType, BusinessAttire.AttireType, " +
-                "CASE WHEN BusinessByAppointment.ByAppointmentOnly = 1 THEN 'Yes' ELSE 'No' END AS ByAppointmentOnly " +
-                "FROM Businesses JOIN BusinessAlcohol ON Businesses.BusinessId = BusinessAlcohol.BusinessId " +
-                "JOIN BusinessAttire ON Businesses.BusinessId = BusinessAttire.BusinessId " +
-                "JOIN BusinessByAppointment ON Businesses.BusinessId = BusinessByAppointment.BusinessId " +
-                "WHERE Reviews.BusinessId=?;";
+        String selectBusinessByBusinessIdSQL = "SELECT * FROM Businesses WHERE BusinessId=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet result = null;
@@ -171,45 +167,51 @@ public class BusinessDao {
         }
     }
 
-    public List<businessInfoDemo> getTopClosestBusiness(BigDecimal longitude, BigDecimal latitude) throws SQLException {
-        String selectBusinessByBusinessIdSQL = "SELECT b.BusinessName, concat('Monday: ', " +
-                "CASE WHEN b.MondayListedHours IS NULL or b.MondayListedHours = '' THEN 'Closed' else b.MondayListedHours END, '\n Tuesday: ', " +
-                "CASE WHEN b.TuesdayListedHours IS NULL or b.TuesdayListedHours = '' THEN 'Closed' else b.TuesdayListedHours END, '\n Wednesday: ', " +
-                "CASE WHEN b.WednesdayListedHours IS NULL or b.WednesdayListedHours = '' THEN 'Closed' else b.WednesdayListedHours END, '\n Thursday: ', " +
-                "CASE WHEN b.ThursdayListedHours IS NULL or b.ThursdayListedHours = '' THEN 'Closed' else b.ThursdayListedHours END, '\n Friday: ', " +
-                "CASE WHEN b.FridayListedHours IS NULL or b.FridayListedHours = '' THEN 'Closed' else b.FridayListedHours END, '\n Saturday: ', " +
-                "CASE WHEN b.SaturdayListedHours IS NUL or b.SaturdayListedHours = '' THEN 'Closed' else b.SaturdayListedHours END,'\n Sunday', " +
-                "CASE WHEN b.SundayListedHours IS NULL or b.SundayListedHours = '' THEN 'Closed' else b.SundayListedHours END) as Hours, " +
-                "concat(b.address, ', ', c.city) as Address, COUNT(r.ReviewId) AS NumberOfReviews, round(AVG(r.CommentStars), 2) AS AverageRating, " +
-                "round(6371 * acos( cos( radians(?) ) * cos( radians( b.Latitude ) ) * " +
-                "cos( radians( b.Longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( b.Latitude ) ) ) ,2) AS DistanceInKM " +
-                "FROM Businesses b JOIN Reviews r ON b.BusinessId = r.BusinessId " +
-                "JOIN Cities c ON b.PostalCode = c.PostalCode WHERE b.Latitude != ? AND b.Longitude != ? " +
-                "GROUP BY b.BusinessId, b.BusinessName, c.PostalCode, b.Latitude, b.Longitude ORDER BY DistanceInKM ASC, NumberOfReviews DESC, AverageRating DESC LIMIT 10;";
+    public List<Business> getTopClosestBusiness(BigDecimal inputLongitude, BigDecimal inputLatitude) throws SQLException {
+        List<Business> businessList = new ArrayList<>();
+        String selectTopClosestBusinessSQL =
+                "SELECT b.BusinessId, b.BusinessName, b.BusinessStars, b.Longitude, b.Latitude,b.Address," +
+                        "b.MondayListedHours,b.TuesdayListedHours,b.WednesdayListedHours,b.ThursdayListedHours," +
+                        "b.FridayListedHours,b.SaturdayListedHours,b.SundayListedHours,b.PostalCode," +
+                        "COUNT(r.ReviewId) AS NumberOfReviews, AVG(r.CommentStars) AS AverageRating, " +
+                        "6371 * acos(cos(radians(?)) * cos(radians(b.Latitude)) * cos(radians(b.Longitude) - radians(?)) " +
+                        "+ sin(radians(?)) * sin(radians(b.Latitude))) AS distance \n" +
+                        "FROM businesses b JOIN Reviews r ON b.BusinessId = r.BusinessId\n" +
+                        "GROUP BY b.BusinessId, b.BusinessName, b.Latitude, b.Longitude\n" +
+                        "ORDER BY distance ASC, NumberOfReviews DESC, AverageRating DESC\n" +
+                        "LIMIT 10;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet result = null;
-        List<businessInfoDemo> resultBusinesses = new ArrayList<businessInfoDemo>();
 
         try {
             connection = connectionManager.getConnection();
-            selectStmt = connection.prepareStatement(selectBusinessByBusinessIdSQL);
-            selectStmt.setBigDecimal(1, latitude);
-            selectStmt.setBigDecimal(2, longitude);
-            selectStmt.setBigDecimal(3, latitude);
-            selectStmt.setBigDecimal(4, latitude);
-            selectStmt.setBigDecimal(5, longitude);
+            selectStmt = connection.prepareStatement(selectTopClosestBusinessSQL);
+            selectStmt.setBigDecimal(1, inputLatitude);
+            selectStmt.setBigDecimal(2, inputLongitude);
+            selectStmt.setBigDecimal(3, inputLatitude);
             result = selectStmt.executeQuery();
-
+            CityDao cityDao = CityDao.getInstance();
             while (result.next()) {
+                String businessId = result.getString("BusinessId");
                 String businessName = result.getString("BusinessName");
-                String hours = result.getString("Hours");
+                Double businessStars = result.getDouble("BusinessStars");
+                BigDecimal longitude = result.getBigDecimal("Longitude");
+                BigDecimal latitude = result.getBigDecimal("Latitude");
                 String address = result.getString("Address");
-                int NumberOfReviews = result.getInt("NumberOfReviews");
-                double AverageRating = result.getDouble("AverageRating");
-                double DistanceInKM = result.getDouble("DistanceInKM");
-                businessInfoDemo business = new businessInfoDemo(businessName, hours, address, NumberOfReviews, AverageRating, DistanceInKM);
-                resultBusinesses.add(business);
+                String mondayListedHours = result.getString("MondayListedHours");
+                String tuesdayListedHours = result.getString("TuesdayListedHours");
+                String wednesdayListedHours = result.getString("WednesdayListedHours");
+                String thursdayListedHours = result.getString("ThursdayListedHours");
+                String fridayListedHours = result.getString("FridayListedHours");
+                String saturdayListedHours = result.getString("SaturdayListedHours");
+                String sundayListedHours = result.getString("SundayListedHours");
+                String postalCode = result.getString("PostalCode");
+                City city = cityDao.getCityByPostalCode(postalCode);
+                Business business = new Business(businessId, businessName, businessStars, longitude, latitude, address,
+                        mondayListedHours, tuesdayListedHours, wednesdayListedHours, thursdayListedHours, fridayListedHours,
+                        saturdayListedHours, sundayListedHours, city);
+                businessList.add(business);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -225,37 +227,43 @@ public class BusinessDao {
                 connection.close();
             }
         }
-
-        return resultBusinesses;
+        return businessList;
     }
 
-    private class businessInfoDemo {
-        private String businessName;
-        private String hours;
-        private String address;
-        private int NumberOfReviews;
-        private double AverageRating;
-        private double DistanceInKM;
-        public businessInfoDemo(String businessName, String hours, String address, int NumberOfReviews, double AverageRating, double DistanceInKM) {
-            this.businessName = businessName;
-            this.hours = hours;
-            this.address = address;
-            this.NumberOfReviews = NumberOfReviews;
-            this.AverageRating = AverageRating;
-            this.DistanceInKM = DistanceInKM;
-        }
+    public double getRatingForBusiness(String businessId) throws SQLException {
+        double rating = -1.0; // Default value if the business doesn't exist or there is an error
+        String selectAvgRatingSQL = "SELECT AVG(r.CommentStars) AS AverageRating " +
+                "FROM businesses b " +
+                "JOIN Reviews r ON b.BusinessId = r.BusinessId " +
+                "WHERE b.BusinessId=?";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet result = null;
 
-        @Override
-        public String toString() {
-            return "Business{" +
-                    ", businessName='" + businessName + '\'' +
-                    ", Hours='" + hours + '\'' +
-                    ", address='" + address + '\'' +
-                    ", NumberOfReviews='" + NumberOfReviews + '\'' +
-                    ", AverageRating='" + AverageRating + '\'' +
-                    ", DistanceInKM='" + DistanceInKM + '\'' +
-                    '}';
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectAvgRatingSQL);
+            selectStmt.setString(1, businessId);
+            result = selectStmt.executeQuery();
+
+            if (result.next()) {
+                rating = result.getDouble("AverageRating");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+
         }
+        return rating;
     }
-
 }
