@@ -52,14 +52,14 @@ public class TipDao {
             e.printStackTrace();
             throw e;
         } finally {
+            if (resultKey != null) {
+                resultKey.close();
+            }
             if (insertStmt != null) {
                 insertStmt.close();
             }
             if (connection != null) {
                 connection.close();
-            }
-            if (resultKey != null) {
-                resultKey.close();
             }
         }
     }

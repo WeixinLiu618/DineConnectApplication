@@ -17,6 +17,13 @@ public class Promotion {
         this.event = event;
     }
 
+    public Promotion(Business business, Date startTime, Date endTime, String event) {
+        this.business = business;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.event = event;
+    }
+
     public int getPromotionId() {
         return promotionId;
     }

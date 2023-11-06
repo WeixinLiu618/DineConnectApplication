@@ -3,8 +3,10 @@ package dineconnect.dal;
 import dineconnect.model.Business;
 import dineconnect.model.Promotion;
 
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PromotionDao {
@@ -22,41 +24,40 @@ public class PromotionDao {
         return promotionDao;
     }
 
-    public Promotion create(String businessId, String startTime, String endTime, String event) throws SQLException {
-        BusinessDao businessDao = BusinessDao.getInstance();
-        Business newBusiness;
-        if (businessDao.getBusinessByBusinessId(businessId) == null) {
-            newBusiness = new Business(businessId);
-            businessDao.create(newBusiness);
-        } else {
-            newBusiness = businessDao.getBusinessByBusinessId(businessId);
-        }
+    public Promotion create(Promotion promotion) throws SQLException {
 
         String insertPromotionSQL = "INSERT into Promotions(BusinessId, StartTime, EndTime, Event) VALUES (?,?,?,?);";
         Connection connection = null;
         PreparedStatement insertStmt = null;
+        ResultSet resultKey = null;
 
         try {
             connection = connectionManager.getConnection();
-            insertStmt = connection.prepareStatement(insertPromotionSQL);
-            insertStmt.setString(1, businessId);
-            insertStmt.setDate(2, Date.valueOf(startTime));
-            insertStmt.setDate(3, Date.valueOf(endTime));
-            insertStmt.setString(4, event);
-            int affectedRows = insertStmt.executeUpdate();
-            if (affectedRows == 0) {
-                System.out.println("Add record into Promotions ERROR.");
+            insertStmt = connection.prepareStatement(insertPromotionSQL, Statement.RETURN_GENERATED_KEYS);
+
+            insertStmt.setString(1, promotion.getBusiness().getBusinessId());
+            insertStmt.setTimestamp(2, new Timestamp(promotion.getStartTime().getTime()));
+            insertStmt.setTimestamp(3, new Timestamp(promotion.getEndTime().getTime()));
+            insertStmt.setString(4, promotion.getEvent());
+            insertStmt.executeUpdate();
+
+            resultKey = insertStmt.getGeneratedKeys();
+            int promotionId = -1;
+            if (resultKey.next()) {
+                promotionId = resultKey.getInt(1);
             } else {
-                ResultSet generatedKeys = insertStmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int generatedTipsId = generatedKeys.getInt(1);
-                    return new Promotion(generatedTipsId, newBusiness, Date.valueOf(startTime), Date.valueOf(endTime), event);
-                }
+                throw new SQLException("Unable to retrieve auto-generated key.");
             }
+            promotion.setPromotionId(promotionId);
+            return promotion;
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         } finally {
+            if (resultKey != null) {
+                resultKey.close();
+            }
             if (insertStmt != null) {
                 insertStmt.close();
             }
@@ -64,16 +65,15 @@ public class PromotionDao {
                 connection.close();
             }
         }
-        return null;
     }
 
-    public List<PromotionInfoDemo> getPromotionByBusinessId(String businessId) throws SQLException {
-        String selectPromotionByBusinessIdSQL = "SELECT Businesses.BusinessName, Promotions.StartTime, Promotions.EndTime, " +
-                "Promotions.Event FROM Promotions JOIN Businesses ON Promotions.BusinessId = Businesses.BusinessId WHERE BusinessId=?;";
+    public List<Promotion> getPromotionsByBusinessId(String businessId) throws SQLException {
+        BusinessDao businessDao = BusinessDao.getInstance();
+        String selectPromotionByBusinessIdSQL = "SELECT * FROM Promotions WHERE BusinessId=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet result = null;
-        List<PromotionInfoDemo> promotionList = new ArrayList<PromotionInfoDemo>();
+        List<Promotion> promotionList = new ArrayList<>();
 
         try {
             connection = connectionManager.getConnection();
@@ -81,12 +81,13 @@ public class PromotionDao {
             selectStmt.setString(1, businessId);
             result = selectStmt.executeQuery();
             while (result.next()) {
-                String businessName = result.getString("BusinessName");
-                Date startTime = Date.valueOf(result.getString("StartTime"));
-                Date endTime = Date.valueOf(result.getString("EndTime"));
+                int promotionId = result.getInt("PromotionId");
+                Date startTime = new Date(result.getTimestamp("StartTime").getTime());
+                Date endTime = new Date(result.getTimestamp("EndTime").getTime());
                 String event = result.getString("Event");
-                PromotionInfoDemo promotionInfoDemo = new PromotionInfoDemo(businessName, startTime, endTime, event);
-                promotionList.add(promotionInfoDemo);
+                Business business = businessDao.getBusinessByBusinessId(businessId);
+                Promotion promotion = new Promotion(promotionId, business, startTime, endTime, event);
+                promotionList.add(promotion);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,27 +106,5 @@ public class PromotionDao {
         return promotionList;
     }
 
-    private class PromotionInfoDemo {
-        String businessName;
-        Date startTime;
-        Date endTime;
-        String event;
 
-        public PromotionInfoDemo(String businessName, Date startTime, Date endTime, String event) {
-            this.businessName = businessName;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.event = event;
-        }
-
-        @Override
-        public String toString() {
-            return "Promotion{" +
-                    ", businessName='" + businessName + '\'' +
-                    ", StartTime='" + startTime + '\'' +
-                    ", EndTime='" + endTime + '\'' +
-                    ", Event='" + event + '\'' +
-                    '}';
-        }
-    }
 }
