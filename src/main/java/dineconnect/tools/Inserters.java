@@ -19,15 +19,19 @@ public class Inserters {
         ReviewDao reviewDao = ReviewDao.getInstance();
         TipDao tipDao = TipDao.getInstance();
         CheckinDao checkinDao = CheckinDao.getInstance();
+        PromotionDao promotionDao = PromotionDao.getInstance();
+
 
 
 //        User weixin1 = new User(String.valueOf(UUID.randomUUID()), "weixin1", new Date());
         User user = userDao.getUserByUserId("__FzScrH7kzHXdZpS_wjfA");
-        Business business = businessDao.getBusinessByBusinessId("__yJPcT-C68DuQ4dHdsrmg");
+        Business business = businessDao.getBusinessByBusinessId("_tADqh3OmH6CzGJWKkru3g");
 //        Checkin checkin = checkinDao.create(new Checkin(new Date(), user, business));
 //        System.out.println(checkin);
         Tip tip = new Tip("Close from 2022-01-01", new Date(), user, business);
         tipDao.create(tip);
+
+        promotionDao.create(new Promotion(business,new Date(),new Date(),"Buy 2 get 1"));
 
 
 //        CityDao cityDao = CityDao.getInstance();

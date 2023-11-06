@@ -27,6 +27,20 @@
                 <th>Event</th>
             </tr>
             </thead>
+
+            <c:forEach items="${promotionList}" var="promotion" varStatus="status">
+                <tbody>
+                <tr>
+                    <td>${status.count}</td>
+                    <fmt:parseDate value="${promotion.getStartTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedStartTime"/>
+                    <td><fmt:formatDate value="${parsedStartTime}" pattern="MMMM dd, yyyy HH:mm:ss"/></td>
+                    <fmt:parseDate value="${promotion.getEndTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedEndTime"/>
+                    <td><fmt:formatDate value="${parsedEndTime}" pattern="MMMM dd, yyyy HH:mm:ss"/></td>
+                    <td><c:out value="${promotion.getEvent()}"/></td>
+                </tr>
+                </tbody>
+            </c:forEach>
+
         </table>
     </div>
 </div>

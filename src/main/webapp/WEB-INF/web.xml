@@ -27,7 +27,6 @@
         <url-pattern>/businesspage</url-pattern>
     </servlet-mapping>
 
-
     <servlet>
         <servlet-name>UserHistoryServlet</servlet-name>
         <servlet-class>dineconnect.servlet.UserHistoryServlet</servlet-class>
@@ -55,8 +54,6 @@
         <url-pattern>/tipdelete</url-pattern>
     </servlet-mapping>
 
-
-
     <servlet>
         <servlet-name>BusinessListedHoursServlet</servlet-name>
         <servlet-class>dineconnect.servlet.BusinessListedHoursServlet</servlet-class>
@@ -65,6 +62,16 @@
         <servlet-name>BusinessListedHoursServlet</servlet-name>
         <url-pattern>/businesslistedhours</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>BusinessPromotionsServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.BusinessPromotionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BusinessPromotionsServlet</servlet-name>
+        <url-pattern>/businesspromotions</url-pattern>
+    </servlet-mapping>
+
 
 
 </web-app>
