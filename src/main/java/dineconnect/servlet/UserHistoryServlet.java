@@ -48,14 +48,16 @@ public class UserHistoryServlet extends HttpServlet {
         if (userAttribute != null) {
             user = (User) userAttribute;
         }
-//        String userId = req.getParameter("userid");
-//        User user = null;
-//        try {
-//            user = userDao.getUserByUserId(userId);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new RuntimeException(e);
-//        }
+        else {
+            String userId = req.getParameter("userid");
+            try {
+                user = userDao.getUserByUserId(userId);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
 
         List<Review> reviewList = new ArrayList<>();
         List<Tip> tipList = new ArrayList<>();

@@ -37,6 +37,14 @@
         <url-pattern>/userhistory</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ReviewDeleteServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.ReviewDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReviewDeleteServlet</servlet-name>
+        <url-pattern>/reviewdelete</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

@@ -55,6 +55,50 @@ public class ReviewDao {
         }
     }
 
+    public Review getReviewByReviewId(String reviewId) throws SQLException {
+        BusinessDao businessDao = BusinessDao.getInstance();
+        UserDao userDao = UserDao.getInstance();
+        String selectReviewByUserIdSQL = "SELECT * FROM Reviews WHERE Reviews.ReviewId=?;";
+
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet result = null;
+
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectReviewByUserIdSQL);
+            selectStmt.setString(1, reviewId);
+            result = selectStmt.executeQuery();
+            if (result.next()) {
+                String comment = result.getString("COMMENT");
+                Date createdTime = new Date(result.getTimestamp("CreatedTime").getTime());
+                BigDecimal commentStars = result.getBigDecimal("CommentStars");
+                String businessId = result.getString("BusinessId");
+                String userId = result.getString("UserId");
+                User user = userDao.getUserByUserId(userId);
+                Business business = businessDao.getBusinessByBusinessId(businessId);
+                Review review = new Review(reviewId, comment, createdTime, commentStars, business, user);
+                return review;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return null;
+    }
+
+
     public List<Review> getReviewsByUserId(String userId) throws SQLException {
         BusinessDao businessDao = BusinessDao.getInstance();
         UserDao userDao = UserDao.getInstance();

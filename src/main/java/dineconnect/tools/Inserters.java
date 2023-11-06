@@ -4,6 +4,7 @@ import dineconnect.dal.BusinessDao;
 import dineconnect.dal.ReviewDao;
 import dineconnect.dal.UserDao;
 import dineconnect.model.Business;
+import dineconnect.model.Review;
 import dineconnect.model.User;
 
 import java.math.BigDecimal;
@@ -35,7 +36,15 @@ public class Inserters {
 //                "LIMIT 10;";
 //        System.out.println(businessDao.getRatingForBusiness("Jn4tRtjIuz6MBCykQySpeg"));
 
-        BigDecimal longitude = new BigDecimal("-123241.32414312");
+//        BigDecimal longitude = new BigDecimal("-123241.32414312");
+
+
+        ReviewDao reviewDao = ReviewDao.getInstance();
+        List<Review> reviewsByUserId = reviewDao.getReviewsByUserId("VtCV7jcY1NyPWwAEcJLHYA");
+        reviewsByUserId.forEach(System.out::println);
+
+        Review reviewByReviewId = reviewDao.getReviewByReviewId("v9ricMaOAdYwMJO5KKG8cw");
+        System.out.println(reviewByReviewId);
     }
 }
 
