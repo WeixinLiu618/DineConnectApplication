@@ -37,13 +37,13 @@ public class UserPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> messages = new HashMap<>();
         User user = null;
-
         List<Business> businessList = new ArrayList<>();
         req.setAttribute("messages", messages);
 
         HttpSession session = req.getSession();
 
         String userId = req.getParameter("userId");
+        System.out.println(userId);
         try {
             user = userDao.getUserByUserId(userId);
         } catch (SQLException e) {

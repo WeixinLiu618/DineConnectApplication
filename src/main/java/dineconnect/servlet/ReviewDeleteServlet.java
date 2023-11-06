@@ -3,7 +3,6 @@ package dineconnect.servlet;
 import dineconnect.dal.ReviewDao;
 import dineconnect.dal.UserDao;
 import dineconnect.model.Review;
-import dineconnect.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -23,6 +23,7 @@
 
     <div>
         <form action="userpage" method="post">
+            <input type="hidden" name="userId" value="${user.getUserId()}">
             longitude: <input type="text" name="longitude"/>
             latitude: <input type="text" name="latitude">
             <input type="submit" value="Search Nearby Restaurants"/>
