@@ -30,6 +30,18 @@
                 <th>Sunday</th>
             </tr>
             </thead>
+            <tbody>
+            <tr>
+                <td><c:out value="${business.getMondayListedHours()}"/></td>
+                <td><c:out value="${business.getTuesdayListedHours()}"/></td>
+                <td><c:out value="${business.getWednesdayListedHours()}"/></td>
+                <td><c:out value="${business.getThursdayListedHours()}"/></td>
+                <td><c:out value="${business.getFridayListedHours()}"/></td>
+                <td><c:out value="${business.getSaturdayListedHours()}"/></td>
+                <td><c:out value="${business.getSundayListedHours()}"/></td>
+            </tr>
+            </tbody>
+
         </table>
     </div>
 </div>

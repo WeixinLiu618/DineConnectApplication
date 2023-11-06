@@ -47,4 +47,15 @@
     </servlet-mapping>
 
 
+
+    <servlet>
+        <servlet-name>BusinessListedHoursServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.BusinessListedHoursServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BusinessListedHoursServlet</servlet-name>
+        <url-pattern>/businesslistedhours</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>

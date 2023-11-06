@@ -1,8 +1,7 @@
 package dineconnect.servlet;
 
-import dineconnect.dal.TipDao;
-import dineconnect.dal.UserDao;
-import dineconnect.model.Review;
+import dineconnect.dal.BusinessDao;
+import dineconnect.model.Business;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,22 +14,28 @@ import java.sql.SQLException;
 /**
  * @author Weixin Liu
  */
-@WebServlet("/tipdelete")
-public class TipDeleteServlet extends HttpServlet {
-    protected TipDao tipDao;
-    protected UserDao userDao;
+@WebServlet("/businesslistedhours")
+public class BusinessListedHoursServlet extends HttpServlet {
+    protected BusinessDao businessDao;
 
     @Override
     public void init() throws ServletException {
-        tipDao = TipDao.getInstance();
-        userDao = UserDao.getInstance();
+        businessDao = BusinessDao.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       String tipId = req.getParameter("tipId");
-
-       // TODO similar to reviewdelete servlet
+        String businessId = req.getParameter("businessId");
+        Business business = null;
+        try {
+            business = businessDao.getBusinessByBusinessId(businessId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if(business != null) {
+            req.setAttribute("business", business);
+            req.getRequestDispatcher("/businessListedHours.jsp").forward(req, resp);
+        }
 
     }
 

@@ -55,10 +55,10 @@
                     <td><c:out value="${formattedRating}"/></td>
                     <td><c:out value="${business.getAddress()}"/></td>
                     <td><a href="businesslistedhours?businessId=<c:out value="${business.getBusinessId()}"/>">Listed Hours</a></td>
-                    <td><a href="businesspromotions?username=<c:out value="${business.getBusinessId()}"/>">promotions</a></td>
-                    <td><a href="businessreviews?username=<c:out value="${business.getBusinessId()}"/>">reviews</a></td>
-                    <td><a href="businesstips?username=<c:out value="${business.getBusinessId()}"/>">tips</a></td>
-                    <td><a href="businesscheckins?username=<c:out value="${business.getBusinessId()}"/>">checkins</a></td>
+                    <td><a href="businesspromotions?businessId=<c:out value="${business.getBusinessId()}"/>">promotions</a></td>
+                    <td><a href="businessreviews?businessId=<c:out value="${business.getBusinessId()}"/>">reviews</a></td>
+                    <td><a href="businesstips?businessId=<c:out value="${business.getBusinessId()}"/>">tips</a></td>
+                    <td><a href="businesscheckins?businessId=<c:out value="${business.getBusinessId()}"/>">checkins</a></td>
                 </tr>
                 </tbody>
             </c:forEach>
