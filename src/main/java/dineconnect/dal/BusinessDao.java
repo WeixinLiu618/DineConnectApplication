@@ -1,7 +1,6 @@
 package dineconnect.dal;
 
 import dineconnect.model.Business;
-import dineconnect.model.BusinessAlcohol;
 import dineconnect.model.City;
 
 import java.math.BigDecimal;
@@ -195,7 +194,8 @@ public class BusinessDao {
             while (result.next()) {
                 String businessId = result.getString("BusinessId");
                 String businessName = result.getString("BusinessName");
-                Double businessStars = result.getDouble("BusinessStars");
+                // change to rating
+                Double businessStars = result.getDouble("AverageRating");
                 BigDecimal longitude = result.getBigDecimal("Longitude");
                 BigDecimal latitude = result.getBigDecimal("Latitude");
                 String address = result.getString("Address");
@@ -231,6 +231,7 @@ public class BusinessDao {
     }
 
     public double getRatingForBusiness(String businessId) throws SQLException {
+        Business business = businessDao.getBusinessByBusinessId(businessId);
         double rating = -1.0; // Default value if the business doesn't exist or there is an error
         String selectAvgRatingSQL = "SELECT AVG(r.CommentStars) AS AverageRating " +
                 "FROM businesses b " +
@@ -248,6 +249,8 @@ public class BusinessDao {
 
             if (result.next()) {
                 rating = result.getDouble("AverageRating");
+                business.setBusinessStars(rating);
+                businessDao.updateBusiness(business);
             }
         } catch (SQLException e) {
             e.printStackTrace();

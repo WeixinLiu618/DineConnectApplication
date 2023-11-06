@@ -22,7 +22,7 @@
     </div>
 
     <div>
-        <form action="userlogin" method="post">
+        <form action="userpage" method="post">
             longitude: <input type="text" name="longitude"/>
             latitude: <input type="text" name="latitude">
             <input type="submit" value="Search Nearby Restaurants"/>
@@ -33,6 +33,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>No.</th>
                 <th>Restaurant nearby</th>
                 <th>Ratings</th>
                 <th>Address</th>
@@ -43,7 +44,23 @@
                 <th>Checkins</th>
             </tr>
             </thead>
-            <%--TODO: forEach of nearyby retaurants showing for user--%>
+
+            <c:forEach items="${businessList}" var="business" varStatus="status">
+                <tbody>
+                <tr>
+                    <td>${status.count}</td>
+                    <td><c:out value="${business.getBusinessName()}"/></td>
+                    <fmt:formatNumber value="${business.getBusinessStars()}" pattern="#.00" var="formattedRating" />
+                    <td><c:out value="${formattedRating}"/></td>
+                    <td><c:out value="${business.getAddress()}"/></td>
+                    <td><a href="businesslistedhours?businessId=<c:out value="${business.getBusinessId()}"/>">Listed Hours</a></td>
+                    <td><a href="businesspromotions?username=<c:out value="${business.getBusinessId()}"/>">promotions</a></td>
+                    <td><a href="businessreviews?username=<c:out value="${business.getBusinessId()}"/>">reviews</a></td>
+                    <td><a href="businesstips?username=<c:out value="${business.getBusinessId()}"/>">tips</a></td>
+                    <td><a href="businesscheckins?username=<c:out value="${business.getBusinessId()}"/>">checkins</a></td>
+                </tr>
+                </tbody>
+            </c:forEach>
         </table>
     </div>
 
