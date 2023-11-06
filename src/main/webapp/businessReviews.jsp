@@ -13,6 +13,9 @@
 <body>
 
 <div class="container theme-showcase" role="main">
+    <div class="text-right">
+        <p>Your Username: <c:out value="${user.getUserName()}"/></p>
+    </div>
     <div class="jumbotron">
         <h1>Reviews of <c:out value="${business.getBusinessName()}"/></h1>
     </div>
@@ -29,6 +32,19 @@
             </tr>
             </thead>
         </table>
+    </div>
+    <br><br>
+
+    <div>
+        <form action="add review" method="post">
+            Comment:
+            <br>
+            <textarea name="comment" rows="4" cols="50"></textarea>
+            <br><br>
+            Comment Stars: <input type="text" name="commentStars" size="10">
+            <br><br>
+            <input type="submit" value="Add Review"/>
+        </form>
     </div>
 
 </div>

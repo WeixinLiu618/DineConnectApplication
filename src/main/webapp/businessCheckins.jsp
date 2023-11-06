@@ -13,6 +13,10 @@
 <body>
 
 <div class="container theme-showcase" role="main">
+    <div class="text-right">
+        <p>Your Username: <c:out value="${user.getUserName()}"/></p>
+    </div>
+
     <div class="jumbotron">
         <h1>Check-Ins of <c:out value="${business.getBusinessName()}"/></h1>
     </div>
@@ -28,6 +32,14 @@
             </thead>
         </table>
     </div>
+    <br><br>
+
+    <div>
+        <form action="add checkin" method="post">
+            <input type="submit" value="Add Check-In"/>
+        </form>
+    </div>
+
 </div>
 </body>
 </html>

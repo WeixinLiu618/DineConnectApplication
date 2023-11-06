@@ -13,6 +13,10 @@
 <body>
 
 <div class="container theme-showcase" role="main">
+    <div class="text-right">
+        <p>Your Username: <c:out value="${user.getUserName()}"/></p>
+    </div>
+
     <div class="jumbotron">
         <h1>Tips of <c:out value="${business.getBusinessName()}"/></h1>
     </div>
@@ -22,12 +26,23 @@
             <thead>
             <tr>
                 <th>No.</th>
-                <th>Content</th>
+                <th>Text</th>
                 <th>Created Time</th>
                 <th>Username</th>
             </tr>
             </thead>
         </table>
+    </div>
+    <br><br>
+
+    <div>
+        <form action="add tip" method="post">
+            Text:
+            <br>
+            <textarea name="text" rows="4" cols="50"></textarea>
+            <br><br>
+            <input type="submit" value="Add Tip"/>
+        </form>
     </div>
 
 </div>
