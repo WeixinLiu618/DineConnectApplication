@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class UserPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> messages = new HashMap<>();
+        HttpSession session = req.getSession();
         req.setAttribute("messages", messages);
         User user = null;
         String userId = req.getParameter("userId");
@@ -46,6 +48,7 @@ public class UserPageServlet extends HttpServlet {
 
         if (user != null) {
             req.setAttribute("user", user);
+            session.setAttribute("user", user);
             req.getRequestDispatcher("/userPage.jsp").forward(req, resp);
         } else {
             String errorMessage = "Invalid User ID. Please try again.";

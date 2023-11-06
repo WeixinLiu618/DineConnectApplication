@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -19,25 +20,28 @@ import java.sql.SQLException;
 public class UserHistoryServlet extends HttpServlet {
 
     protected UserDao userDao;
+
     @Override
     public void init() throws ServletException {
-       userDao = UserDao.getInstance();
+        userDao = UserDao.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userId = req.getParameter("userid");
-        User user = null;
-        try {
-            user = userDao.getUserByUserId(userId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+//        String userId = req.getParameter("userid");
+//        User user = null;
+//        try {
+//            user = userDao.getUserByUserId(userId);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
+//        }
         if (user != null) {
             req.setAttribute("user", user);
             req.getRequestDispatcher("/userHistory.jsp").forward(req, resp);
-        }else {
+        } else {
             req.getRequestDispatcher("/userPage.jsp").forward(req, resp);
         }
     }

@@ -18,7 +18,7 @@
         <fmt:parseDate value="${user.getYelpingSince()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedDate"/>
         <h2>You have yelped since <fmt:formatDate value="${parsedDate}" pattern="MMMM dd, yyyy"/></h2>
         <br>
-        <h4><a href="userhistory?userid=${user.getUserId()}">History</a></h4>
+        <h4><a href="userhistory">History</a></h4>
     </div>
 
     <div>

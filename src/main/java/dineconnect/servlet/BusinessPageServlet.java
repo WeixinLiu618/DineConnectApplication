@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -32,22 +33,24 @@ public class BusinessPageServlet extends HttpServlet {
         req.setAttribute("messages", messages);
         Business business = null;
         String businessId = req.getParameter("businessId");
+        HttpSession session = req.getSession();
 
         try {
             business = businessDao.getBusinessByBusinessId(businessId);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         messages.put("previousBusinessId", businessId);
 
         if (business != null) {
             req.setAttribute("business", business);
+            session.setAttribute("business", business);
             req.getRequestDispatcher("/businessPage.jsp").forward(req, resp);
         } else {
             String errorMessage = "Invalid Business ID. Please try again.";
-            messages.put("errorMessage",errorMessage);
+            messages.put("errorMessage", errorMessage);
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
 
