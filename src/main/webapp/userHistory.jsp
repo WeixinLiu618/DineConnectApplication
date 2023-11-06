@@ -28,7 +28,19 @@
                 <th>Delete</th>
             </tr>
             </thead>
-            <%--TODO: forEach of reviews showing for user--%>
+            <c:forEach items="${reviewList}" var="review">
+                <tbody>
+                <tr>
+                    <td><c:out value="${businessNameMap.get(review.getBusiness().getBusinessId())}"/></td>
+                    <td><c:out value="${review.getComment()}"/></td>
+                    <td><c:out value="${review.getCommentStars()}"/></td>
+                    <fmt:parseDate value="${review.getCreatedTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedTime"/>
+                    <td><fmt:formatDate value="${parsedTime}" pattern="MMMM dd, yyyy HH:mm:ss"/></td>
+                    <td><a href="reviewdelete?reviewId=<c:out value="${review.getReviewId()}"/>">Delete</a></td>
+
+                </tr>
+                </tbody>
+            </c:forEach>
         </table>
     </div>
     <br><br>

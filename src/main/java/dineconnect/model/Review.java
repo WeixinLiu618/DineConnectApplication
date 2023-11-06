@@ -1,16 +1,17 @@
 package dineconnect.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Review {
     private String reviewId;
     private String comment;
     private Date createdTime;
-    private double commentStars;
+    private BigDecimal commentStars;
     private Business business;
     private User user;
 
-    public Review(String reviewId, String comment, Date createdTime, double commentStars, Business business, User user) {
+    public Review(String reviewId, String comment, Date createdTime, BigDecimal commentStars, Business business, User user) {
         this.reviewId = reviewId;
         this.comment = comment;
         this.createdTime = createdTime;
@@ -43,11 +44,11 @@ public class Review {
         this.createdTime = createdTime;
     }
 
-    public double getCommentStars() {
+    public BigDecimal getCommentStars() {
         return commentStars;
     }
 
-    public void setCommentStars(double commentStars) {
+    public void setCommentStars(BigDecimal commentStars) {
         this.commentStars = commentStars;
     }
 
