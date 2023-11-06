@@ -56,6 +56,18 @@
                 <th>Delete</th>
             </tr>
             </thead>
+            <c:forEach items="${tipList}" var="tip">
+                <tbody>
+                <tr>
+                    <td><c:out value="${businessNameMap.get(tip.getBusiness().getBusinessId())}"/></td>
+                    <td><c:out value="${tip.getText()}"/></td>
+                    <fmt:parseDate value="${tip.getCreatedTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedTime"/>
+                    <td><fmt:formatDate value="${parsedTime}" pattern="MMMM dd, yyyy HH:mm:ss"/></td>
+                    <td><a href="tipdelete?tipId=<c:out value="${tip.getTipId()}"/>">Delete</a></td>
+
+                </tr>
+                </tbody>
+            </c:forEach>
         </table>
     </div>
     <br><br>
@@ -69,6 +81,16 @@
                 <th>Check-In Time</th>
             </tr>
             </thead>
+            <c:forEach items="${checkinList}" var="checkin">
+                <tbody>
+                <tr>
+                    <td><c:out value="${businessNameMap.get(checkin.getBusiness().getBusinessId())}"/></td>
+                    <fmt:parseDate value="${checkin.getCheckInTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedTime"/>
+                    <td><fmt:formatDate value="${parsedTime}" pattern="MMMM dd, yyyy HH:mm:ss"/></td>
+
+                </tr>
+                </tbody>
+            </c:forEach>
         </table>
     </div>
 </div>

@@ -37,30 +37,27 @@ public class UserPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> messages = new HashMap<>();
         User user = null;
+
         List<Business> businessList = new ArrayList<>();
         req.setAttribute("messages", messages);
 
         HttpSession session = req.getSession();
-        Object userAttribute = session.getAttribute("user");
-        if (userAttribute != null) {
-            user = (User) userAttribute;
-        } else {
-            String userId = req.getParameter("userId");
-            try {
-                user = userDao.getUserByUserId(userId);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-            // Save the previous search term, so it can be used as the default
-            // in the input box when rendering login.jsp.
-            messages.put("previousUserId", userId);
-            if (user != null) {
-                req.setAttribute("user", user);
-                session.setAttribute("user", user);
-            }
 
+        String userId = req.getParameter("userId");
+        try {
+            user = userDao.getUserByUserId(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        // Save the previous search term, so it can be used as the default
+        // in the input box when rendering login.jsp.
+        messages.put("previousUserId", userId);
+        if (user != null) {
+            req.setAttribute("user", user);
+            session.setAttribute("user", user);
+        }
+
 
         BigDecimal longitude = BigDecimal.valueOf(1000000.0);
         BigDecimal latitude = BigDecimal.valueOf(1000000.0);
