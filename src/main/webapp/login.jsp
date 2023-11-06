@@ -16,17 +16,13 @@
     <div class="jumbotron">
         <h1>Welcome to DineConnect</h1>
     </div>
-    <%--Form for user login--%>
+    <%--Form for user or business login--%>
     <form action="userpage" method="post">
-        Input your User ID: <input type="text" name="userId"/>
-        <input type="submit" value="Login as User"/>
-    </form>
-    <br>
-    <br>
-    <%--Form for business login--%>
-    <form action="businesspage" method="post">
-        Input your Business ID: <input type="text" name="businessId"/>
-        <input type="submit" value="Login as Business"/>
+        Input your ID: <input type="text" name="userId"/>
+        <br><br>
+        <input type="submit" name="userLogin" value="Login as User" style="float: left; margin-right: 10px;"/>
+        <input type="submit" name="businessLogin" value="Login as Business" style="float: left;"/>
+        <div style="clear: both;"></div>
     </form>
 
 </div>

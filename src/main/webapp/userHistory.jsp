@@ -31,6 +31,34 @@
             <%--TODO: forEach of reviews showing for user--%>
         </table>
     </div>
+    <br><br>
+
+    <h3>Tips</h3>
+    <div id="tip-for-user">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Business Name</th>
+                <th>Text</th>
+                <th>Created Time</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <br><br>
+
+    <h3>Check-Ins</h3>
+    <div id="checkin-for-user">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Business Name</th>
+                <th>Check-In Time</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 </body>

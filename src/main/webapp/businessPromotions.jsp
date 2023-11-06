@@ -8,26 +8,23 @@
 <head>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <title>Business Listed Hours</title>
+    <title>Business Promotions</title>
 </head>
 <body>
 
 <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-        <h1>Listed Hours of <c:out value="${business.getBusinessName()}"/></h1>
+        <h1>Promotions of <c:out value="${business.getBusinessName()}"/></h1>
     </div>
 
-    <div id="businessListedHours">
+    <div id="businessPromotions">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-                <th>Sunday</th>
+                <th>No.</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Event</th>
             </tr>
             </thead>
         </table>
