@@ -5,6 +5,9 @@ import dineconnect.model.Checkin;
 import dineconnect.model.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class CheckinDao {
     protected ConnectionManager connectionManager;
@@ -14,53 +17,30 @@ public class CheckinDao {
         connectionManager = new ConnectionManager();
     }
 
-    public static CheckinDao getInstance() {
-        if (checkinDao == null) {
-            checkinDao = new CheckinDao();
-        }
-        return checkinDao;
-    }
-
-    public Checkin create(String businessId, String userId) throws SQLException {
-        BusinessDao businessDao = BusinessDao.getInstance();
-        Business newBusiness;
-        if (businessDao.getBusinessByBusinessId(businessId) == null) {
-            newBusiness = new Business(businessId);
-            businessDao.create(newBusiness);
-        } else {
-            newBusiness = businessDao.getBusinessByBusinessId(businessId);
-        }
-
-        UserDao userDao = UserDao.getInstance();
-        User newUser;
-        if (userDao.getUserByUserId(userId) == null) {
-            newUser = new User(userId);
-            userDao.create(newUser);
-        } else {
-            newUser =  userDao.getUserByUserId(userId);
-        }
-
+    public Checkin create(Checkin checkin) throws SQLException {
         String insertCheckinSQL = "INSERT INTO CheckIns(CheckInTime, UserId, BusinessId) VALUES (?,?,?);";
         Connection connection = null;
         PreparedStatement insertStmt = null;
+        ResultSet resultKey = null;
 
         try {
             connection = connectionManager.getConnection();
-            insertStmt = connection.prepareStatement(insertCheckinSQL);
-            Date currentTime = Date.valueOf(String.valueOf(System.currentTimeMillis()));
-            insertStmt.setDate(1, currentTime);
-            insertStmt.setString(2, businessId);
-            insertStmt.setString(3, userId);
-            int affectedRows = insertStmt.executeUpdate();
-            if (affectedRows == 0) {
-                System.out.println("Add record into CheckIn ERROR.");
+            insertStmt = connection.prepareStatement(insertCheckinSQL,
+                    Statement.RETURN_GENERATED_KEYS);
+            insertStmt.setTimestamp(1, new Timestamp(checkin.getCheckInTime().getTime()));
+            insertStmt.setString(2, checkin.getBusiness().getBusinessId());
+            insertStmt.setString(3, checkin.getUser().getUserId());
+            insertStmt.executeUpdate();
+
+            resultKey = insertStmt.getGeneratedKeys();
+            int checkinId = -1;
+            if (resultKey.next()) {
+                checkinId = resultKey.getInt(1);
             } else {
-                ResultSet generatedKeys = insertStmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int generatedCheckInId = generatedKeys.getInt(1);
-                    return new Checkin(generatedCheckInId, currentTime, newUser, newBusiness);
-                }
+                throw new SQLException("Unable to retrieve auto-generated key.");
             }
+            checkin.setCheckInId(checkinId);
+            return checkin;
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
@@ -71,7 +51,143 @@ public class CheckinDao {
             if (connection != null) {
                 connection.close();
             }
+            if (resultKey != null) {
+                resultKey.close();
+            }
         }
+    }
+
+    public static CheckinDao getInstance() {
+        if (checkinDao == null) {
+            checkinDao = new CheckinDao();
+        }
+        return checkinDao;
+    }
+
+    public Checkin getCheckinByCheckinId(int checkinId) throws SQLException {
+        BusinessDao businessDao = BusinessDao.getInstance();
+        UserDao userDao = UserDao.getInstance();
+        String selectCheckinByCheckinIdSQL = "SELECT * FROM CheckIns WHERE CheckIns.CheckInId=?;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet result = null;
+
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectCheckinByCheckinIdSQL);
+            selectStmt.setInt(1, checkinId);
+            result = selectStmt.executeQuery();
+            if (result.next()) {
+                int resultCheckinId = result.getInt("CheckInId");
+                Date createdTime = new Date(result.getTimestamp("CheckInTime").getTime());
+                String userId = result.getString("UserId");
+                String businessId = result.getString("BusinessId");
+
+                User user = userDao.getUserByUserId(userId);
+                Business business = businessDao.getBusinessByBusinessId(businessId);
+                Checkin checkin = new Checkin(resultCheckinId, createdTime, user, business);
+                return checkin;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
         return null;
+    }
+
+    public List<Checkin> getCheckinsByBusinessId(String businessId) throws SQLException {
+        BusinessDao businessDao = BusinessDao.getInstance();
+        UserDao userDao = UserDao.getInstance();
+        String selectCheckinByBusinessIdSQL = "SELECT * FROM CheckIns WHERE CheckIns.BusinessId=?;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet result = null;
+        List<Checkin> checkinsList = new ArrayList<Checkin>();
+
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectCheckinByBusinessIdSQL);
+            selectStmt.setString(1, businessId);
+            result = selectStmt.executeQuery();
+            while (result.next()) {
+                int checkinId = result.getInt("CheckInId");
+                Date createdTime = new Date(result.getTimestamp("CheckInTime").getTime());
+                String userId = result.getString("UserId");
+
+                User user = userDao.getUserByUserId(userId);
+                Business business = businessDao.getBusinessByBusinessId(businessId);
+                Checkin checkin = new Checkin(checkinId, createdTime, user, business);
+                checkinsList.add(checkin);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return checkinsList;
+    }
+
+    public List<Checkin> getCheckinsByUserId(String userId) throws SQLException {
+        BusinessDao businessDao = BusinessDao.getInstance();
+        UserDao userDao = UserDao.getInstance();
+        String selectCheckinByUserIdSQL = "SELECT * FROM Checkin WHERE Checkin.UserId=?;";
+
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet result = null;
+        List<Checkin> checkinsList = new ArrayList<Checkin>();
+
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectCheckinByUserIdSQL);
+            selectStmt.setString(1, userId);
+            result = selectStmt.executeQuery();
+            while (result.next()) {
+                int checkinId = result.getInt("CheckInId");
+                Date createdTime = new Date(result.getTimestamp("CheckInTime").getTime());
+                String businessId = result.getString("BusinessId");
+
+                User user = userDao.getUserByUserId(userId);
+                Business business = businessDao.getBusinessByBusinessId(businessId);
+                Checkin checkin = new Checkin(checkinId, createdTime, user, business);
+                checkinsList.add(checkin);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return checkinsList;
     }
 }

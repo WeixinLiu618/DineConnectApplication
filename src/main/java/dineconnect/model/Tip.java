@@ -17,6 +17,13 @@ public class Tip {
         this.user = user;
     }
 
+    public Tip(String text, Date createdTime, User user, Business business) {
+        this.text = text;
+        this.createdTime = createdTime;
+        this.user = user;
+        this.business = business;
+    }
+
     public int getTipId() {
         return tipId;
     }

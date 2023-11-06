@@ -5,6 +5,9 @@ import dineconnect.model.Tip;
 import dineconnect.model.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class TipDao {
     protected ConnectionManager connectionManager;
@@ -21,47 +24,30 @@ public class TipDao {
         return tipDao;
     }
 
-    public Tip create(String businessId, String userId, String tips) throws SQLException {
-        BusinessDao businessDao = BusinessDao.getInstance();
-        Business newBusiness;
-        if (businessDao.getBusinessByBusinessId(businessId) == null) {
-            newBusiness = new Business(businessId);
-            businessDao.create(newBusiness);
-        } else {
-            newBusiness = businessDao.getBusinessByBusinessId(businessId);
-        }
-
-        UserDao userDao = UserDao.getInstance();
-        User newUser;
-        if (userDao.getUserByUserId(userId) == null) {
-            newUser = new User(userId);
-            userDao.create(newUser);
-        } else {
-            newUser =  userDao.getUserByUserId(userId);
-        }
-
+    public Tip create(Tip tip) throws SQLException {
         String insertTipSQL = "INSERT INTO Tips(Text, CreatedTime, UserId, BusinessId) VALUES (?,?,?,?);";
         Connection connection = null;
         PreparedStatement insertStmt = null;
-
+        ResultSet resultKey = null;
         try {
             connection = connectionManager.getConnection();
-            insertStmt = connection.prepareStatement(insertTipSQL);
-            Date currentTime = Date.valueOf(String.valueOf(System.currentTimeMillis()));
-            insertStmt.setString(1, tips);
-            insertStmt.setDate(2, currentTime);
-            insertStmt.setString(3, businessId);
-            insertStmt.setString(4, userId);
-            int affectedRows = insertStmt.executeUpdate();
-            if (affectedRows == 0) {
-                System.out.println("Add record into Tips ERROR.");
+            insertStmt = connection.prepareStatement(insertTipSQL,
+                    Statement.RETURN_GENERATED_KEYS);
+            insertStmt.setString(1, tip.getText());
+            insertStmt.setTimestamp(2, new Timestamp(tip.getCreatedTime().getTime()));
+            insertStmt.setString(3, tip.getUser().getUserId());
+            insertStmt.setString(4, tip.getBusiness().getBusinessId());
+            insertStmt.executeUpdate();
+
+            resultKey = insertStmt.getGeneratedKeys();
+            int tipId = -1;
+            if (resultKey.next()) {
+                tipId = resultKey.getInt(1);
             } else {
-                ResultSet generatedKeys = insertStmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int generatedTipsId = generatedKeys.getInt(1);
-                    return new Tip(generatedTipsId, tips, currentTime, newUser, newBusiness);
-                }
+                throw new SQLException("Unable to retrieve auto-generated key.");
             }
+            tip.setTipId(tipId);
+            return tip;
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
@@ -72,31 +58,35 @@ public class TipDao {
             if (connection != null) {
                 connection.close();
             }
+            if (resultKey != null) {
+                resultKey.close();
+            }
         }
-        return null;
     }
 
-    public Tip getTipByBusinessId(String businessId) throws SQLException {
+    public Tip getTipByTipId(int tipId) throws SQLException {
         BusinessDao businessDao = BusinessDao.getInstance();
         UserDao userDao = UserDao.getInstance();
-        String selectTipByBusinessIdSQL = "SELECT Businesses.BusinessName, Tips.Text, Tips.CreatedTime FROM Tips " +
-                "JOIN Businesses ON Tips.BusinessId = Businesses.BusinessId WHERE Reviews.BusinessId=?;";
+        String selectTipByTipIdSQL = "SELECT * FROM Tips WHERE TipId=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet result = null;
 
         try {
             connection = connectionManager.getConnection();
-            selectStmt = connection.prepareStatement(selectTipByBusinessIdSQL);
-            selectStmt.setString(1, businessId);
+            selectStmt = connection.prepareStatement(selectTipByTipIdSQL);
+            selectStmt.setInt(1, tipId);
             result = selectStmt.executeQuery();
             if (result.next()) {
-                int tipId = result.getInt("TipId");
+                int resultTipId = result.getInt("TipId");
                 String text = result.getString("Text");
-                Date createdTime = Date.valueOf(result.getString("CreatedTime"));
-                String userID = result.getString("UserId");
-                String resultBusinessId = result.getString("BusinessId");
-                Tip tip = new Tip(tipId, text, createdTime, userDao.getUserByUserId(userID), businessDao.getBusinessByBusinessId(businessId));
+                Date createdTime = new Date(result.getTimestamp("CreatedTime").getTime());
+                String userId = result.getString("UserId");
+                String businessId = result.getString("BusinessId");
+
+                User user = userDao.getUserByUserId(userId);
+                Business business = businessDao.getBusinessByBusinessId(businessId);
+                Tip tip = new Tip(resultTipId, text, createdTime, user, business);
                 return tip;
             }
         } catch (SQLException e) {
@@ -115,5 +105,107 @@ public class TipDao {
         }
 
         return null;
+    }
+
+    public List<Tip> getTipByBusinessId(String businessId) throws SQLException {
+        BusinessDao businessDao = BusinessDao.getInstance();
+        UserDao userDao = UserDao.getInstance();
+        String selectTipByBusinessIdSQL = "SELECT * FROM Tips WHERE BusinessId=?;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet result = null;
+        List<Tip> tipsList = new ArrayList<Tip>();
+
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectTipByBusinessIdSQL);
+            selectStmt.setString(1, businessId);
+            result = selectStmt.executeQuery();
+            while (result.next()) {
+                int tipId = result.getInt("TipId");
+                String text = result.getString("Text");
+                Date createdTime = new Date(result.getTimestamp("CreatedTime").getTime());
+                String userID = result.getString("UserId");
+                Tip tip = new Tip(tipId, text, createdTime, userDao.getUserByUserId(userID), businessDao.getBusinessByBusinessId(businessId));
+                tipsList.add(tip);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return tipsList;
+    }
+
+    public List<Tip> getTipsByUserId(String userId) throws SQLException {
+        BusinessDao businessDao = BusinessDao.getInstance();
+        UserDao userDao = UserDao.getInstance();
+        String selectTipByUserIdSQL = "SELECT * FROM Tips WHERE UserId=?;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet result = null;
+        List<Tip> tipsList = new ArrayList<Tip>();
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectTipByUserIdSQL);
+            selectStmt.setString(1, userId);
+            result = selectStmt.executeQuery();
+            while(result.next()) {
+                int tipId = result.getInt("TipId");
+                String text = result.getString("Text");
+                Date createdTime = new Date(result.getTimestamp("CreatedTime").getTime());
+                String businessId = result.getString("BusinessId");
+                Tip tip = new Tip(tipId, text, createdTime, userDao.getUserByUserId(userId), businessDao.getBusinessByBusinessId(businessId));
+                tipsList.add(tip);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(connection != null) {
+                connection.close();
+            }
+            if(selectStmt != null) {
+                selectStmt.close();
+            }
+            if(result != null) {
+                result.close();
+            }
+        }
+
+        return tipsList;
+    }
+
+    public Tip delete(Tip tip) throws SQLException {
+        String deleteTipSQL = "DELETE FROM Tips WHERE TipId=?;";
+        Connection connection = null;
+        PreparedStatement deleteStmt = null;
+        try {
+            connection = connectionManager.getConnection();
+            deleteStmt = connection.prepareStatement(deleteTipSQL);
+            deleteStmt.setInt(1, tip.getTipId());
+            deleteStmt.executeUpdate();
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(connection != null) {
+                connection.close();
+            }
+            if(deleteStmt != null) {
+                deleteStmt.close();
+            }
+        }
     }
 }

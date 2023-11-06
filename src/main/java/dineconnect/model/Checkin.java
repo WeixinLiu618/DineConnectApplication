@@ -15,6 +15,12 @@ public class Checkin {
         this.user = user;
     }
 
+    public Checkin(Date checkInTime, User user, Business business) {
+        this.checkInTime = checkInTime;
+        this.user = user;
+        this.business = business;
+    }
+
     public int getCheckInId() {
         return checkInId;
     }
