@@ -5,9 +5,6 @@ import dineconnect.model.User;
 import java.sql.*;
 import java.util.Date;
 
-/**
- * @author Weixin Liu
- */
 public class UserDao {
     protected ConnectionManager connectionManager;
     private static UserDao userDao = null;
@@ -35,7 +32,6 @@ public class UserDao {
             insertStmt.setTimestamp(3, new Timestamp(user.getYelpingSince().getTime()));
             insertStmt.executeUpdate();
             return user;
-
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;

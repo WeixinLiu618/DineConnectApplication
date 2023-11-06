@@ -1,21 +1,14 @@
 package dineconnect.model;
 
-/**
- * @author Weixin Liu
- */
 public class City {
-    protected String postalCode;
-    protected String cityName;
-    protected String state;
+    private String postalCode;
+    private String city;
+    private String state;
 
-    public City(String postalCode, String cityName, String state) {
+    public City(String postalCode, String city, String state) {
         this.postalCode = postalCode;
-        this.cityName = cityName;
+        this.city = city;
         this.state = state;
-    }
-
-    public City(String postalCode) {
-        this.postalCode = postalCode;
     }
 
     public String getPostalCode() {
@@ -26,12 +19,12 @@ public class City {
         this.postalCode = postalCode;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getCity() {
+        return city;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getState() {
@@ -46,7 +39,7 @@ public class City {
     public String toString() {
         return "City{" +
                 "postalCode='" + postalCode + '\'' +
-                ", city='" + cityName + '\'' +
+                ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 '}';
     }

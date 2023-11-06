@@ -2,26 +2,28 @@ package dineconnect.model;
 
 import java.math.BigDecimal;
 
-/**
- * @author Weixin Liu
- */
 public class Business {
-    protected String businessId;
-    protected String businessName;
-    protected BigDecimal businessStars;
-    protected BigDecimal longitude;
-    protected BigDecimal latitude;
-    protected String address;
-    protected String mondayListedHours;
-    protected String tuesdayListedHours;
-    protected String wednesdayListedHours;
-    protected String thursdayListedHours;
-    protected String fridayListedHours;
-    protected String saturdayListedHours;
-    protected String sundayListedHours;
-    protected City city;
+    private String businessId;
+    private String businessName;
+    private double businessStars;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
+    private String address;
+    private String mondayListedHours;
+    private String tuesdayListedHours;
+    private String wednesdayListedHours;
+    private String thursdayListedHours;
+    private String fridayListedHours;
+    private String saturdayListedHours;
+    private String sundayListedHours;
+    private City city;
 
-    public Business(String businessId, String businessName, BigDecimal businessStars, BigDecimal longitude, BigDecimal latitude, String address, String mondayListedHours, String tuesdayListedHours, String wednesdayListedHours, String thursdayListedHours, String fridayListedHours, String saturdayListedHours, String sundayListedHours, City city) {
+    public Business(
+            String businessId, String businessName, double businessStars, BigDecimal longitude, BigDecimal latitude,
+            String address, String mondayListedHours, String tuesdayListedHours, String wednesdayListedHours,
+            String thursdayListedHours, String fridayListedHours, String saturdayListedHours, String sundayListedHours,
+            City city
+    ) {
         this.businessId = businessId;
         this.businessName = businessName;
         this.businessStars = businessStars;
@@ -40,6 +42,19 @@ public class Business {
 
     public Business(String businessId) {
         this.businessId = businessId;
+        this.businessName = "";
+        this.businessStars = 0.0;
+        this.longitude = BigDecimal.valueOf(0);
+        this.latitude = BigDecimal.valueOf(0);
+        this.address = "";
+        this.mondayListedHours = "";
+        this.tuesdayListedHours = "";
+        this.wednesdayListedHours = "";
+        this.thursdayListedHours = "";
+        this.fridayListedHours = "";
+        this.saturdayListedHours = "";
+        this.sundayListedHours = "";
+        this.city = null;
     }
 
     public String getBusinessId() {
@@ -58,11 +73,11 @@ public class Business {
         this.businessName = businessName;
     }
 
-    public BigDecimal getBusinessStars() {
+    public double getBusinessStars() {
         return businessStars;
     }
 
-    public void setBusinessStars(BigDecimal businessStars) {
+    public void setBusinessStars(double businessStars) {
         this.businessStars = businessStars;
     }
 
@@ -170,7 +185,7 @@ public class Business {
                 ", fridayListedHours='" + fridayListedHours + '\'' +
                 ", saturdayListedHours='" + saturdayListedHours + '\'' +
                 ", sundayListedHours='" + sundayListedHours + '\'' +
-                ", postalCode='" + city + '\'' +
+                ", city=" + city +
                 '}';
     }
 }

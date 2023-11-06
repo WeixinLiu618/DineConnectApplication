@@ -7,9 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * @author Weixin Liu
- */
 public class CityDao {
 
     protected ConnectionManager connectionManager;
@@ -35,7 +32,7 @@ public class CityDao {
             connection = connectionManager.getConnection();
             insertStmt = connection.prepareStatement(insertCitySQL);
             insertStmt.setString(1, city.getPostalCode());
-            insertStmt.setString(2, city.getCityName());
+            insertStmt.setString(2, city.getCity());
             insertStmt.setString(3, city.getState());
             insertStmt.executeUpdate();
             return city;

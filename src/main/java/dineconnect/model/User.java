@@ -1,20 +1,11 @@
 package dineconnect.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * @author Weixin Liu
- */
 public class User {
-    protected String userId;
-    protected String userName;
-    protected Date yelpingSince;
-
-    public User(String userId) {
-        this.userId = userId;
-    }
-
+    private String userId;
+    private String userName;
+    private Date yelpingSince;
 
     public User(String userId, String userName, Date yelpingSince) {
         this.userId = userId;
@@ -22,9 +13,10 @@ public class User {
         this.yelpingSince = yelpingSince;
     }
 
-    public User(String userName, Date yelpingSince) {
-        this.userName = userName;
-        this.yelpingSince = yelpingSince;
+    public User(String userId) {
+        this.userId = userId;
+        this.userName = "";
+        this.yelpingSince = java.sql.Date.valueOf(String.valueOf(System.currentTimeMillis()));
     }
 
     public String getUserId() {
@@ -56,7 +48,7 @@ public class User {
         return "User{" +
                 "userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
-                ", yelpingSince=" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(yelpingSince) +
+                ", yelpingSince=" + yelpingSince +
                 '}';
     }
 }
