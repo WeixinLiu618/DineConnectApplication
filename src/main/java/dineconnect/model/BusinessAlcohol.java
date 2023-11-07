@@ -2,8 +2,9 @@ package dineconnect.model;
 
 import java.math.BigDecimal;
 
-public class BusinessAlcohol extends Business{
+public class BusinessAlcohol extends Business {
     private AlcoholType alcoholType;
+
     public BusinessAlcohol(String businessId, String businessName, double businessStars, BigDecimal longitude,
                            BigDecimal latitude, String address, String mondayListedHours, String tuesdayListedHours,
                            String wednesdayListedHours, String thursdayListedHours, String fridayListedHours,
@@ -44,6 +45,6 @@ public class BusinessAlcohol extends Business{
     }
 
     public enum AlcoholType {
-        NONE, BEER_AND_WINE, FULL_BAR
+        none, beer_and_wine, full_bar
     }
 }

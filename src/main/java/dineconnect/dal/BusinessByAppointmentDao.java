@@ -67,7 +67,7 @@ public class BusinessByAppointmentDao {
             connection = connectionManager.getConnection();
             selectStmt = connection.prepareStatement(selectBusinessByBusinessIdSQL);
             selectStmt.setString(1, businessId);
-            selectStmt.executeUpdate();
+            selectStmt.executeQuery();
             result = selectStmt.executeQuery();
             if (result.next()) {
                 String resultBusinessId = result.getString("BusinessId");

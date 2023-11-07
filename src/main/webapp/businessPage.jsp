@@ -40,11 +40,10 @@
                 <td><c:out value="${business.getAddress()}"/></td>
                 <td><c:out value="${business.getCity().getPostalCode()}"/></td>
 
-                <td><c:out value="${business.getBusinessName()}"/></td>
-                <td><c:out value="${business.getAddress()}"/></td>
-                <td><c:out value="${business.getCity().getPostalCode()}"/></td>
-
-                <td><c:out value="${business.getSundayListedHours()}"/></td>
+                <td><c:out value="${byAppointmentOnly}"/></td>
+                <td><c:out value="${attire}"/></td>
+                <td><c:out value="${alcohol}"/></td>
+                <td><a href="updatebusiness?businessId=<c:out value="${business.getBusinessId()}"/>">update</a></td>
             </tr>
             </tbody>
         </table>
@@ -65,6 +64,18 @@
                 <th>Delete</th>
             </tr>
             </thead>
+            <c:forEach items="${promotionList}" var="promotion" varStatus="status">
+                <tbody>
+                <tr>
+                    <td>${status.count}</td>
+                    <fmt:parseDate value="${promotion.getStartTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedStartTime"/>
+                    <td><fmt:formatDate value="${parsedStartTime}" pattern="MMMM dd, yyyy"/></td>
+                    <fmt:parseDate value="${promotion.getEndTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedEndTime"/>
+                    <td><fmt:formatDate value="${parsedEndTime}" pattern="MMMM dd, yyyy"/></td>
+                    <td><c:out value="${promotion.getEvent()}"/></td>
+                </tr>
+                </tbody>
+            </c:forEach>
         </table>
     </div>
     <br><br>

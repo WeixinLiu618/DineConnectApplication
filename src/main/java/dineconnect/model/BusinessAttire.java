@@ -2,7 +2,7 @@ package dineconnect.model;
 
 import java.math.BigDecimal;
 
-public class BusinessAttire extends Business{
+public class BusinessAttire extends Business {
     private AttireType attireType;
 
     public BusinessAttire(String businessId, String businessName, double businessStars, BigDecimal longitude,
@@ -45,6 +45,6 @@ public class BusinessAttire extends Business{
     }
 
     public enum AttireType {
-        CASUAL, DRESSY, FORMAL
+        casual, dressy, formal
     }
 }

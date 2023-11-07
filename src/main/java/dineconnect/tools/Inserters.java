@@ -27,11 +27,11 @@ public class Inserters {
         Business business = businessDao.getBusinessByBusinessId("_tADqh3OmH6CzGJWKkru3g");
 //        Checkin checkin = checkinDao.create(new Checkin(new Date(), user, business));
 //        System.out.println(checkin);
-        Tip tip = new Tip("Close from 2022-01-01", new Date(), user, business);
-        tipDao.create(tip);
+//        Tip tip = new Tip("Close from 2022-01-01", new Date(), user, business);
+//        tipDao.create(tip);
 
-        promotionDao.create(new Promotion(business, new Date(), new Date(), "Buy 2 get 1"));
-        reviewDao.create(new Review("88789922-867b-4b9b-a7fd-0184804293aa", "good!", new Date(), new BigDecimal(4), business, user));
+//        promotionDao.create(new Promotion(business, new Date(), new Date(), "Buy 2 get 1"));
+//        reviewDao.create(new Review("88789922-867b-4b9b-a7fd-0184804293aa", "good!", new Date(), new BigDecimal(4), business, user));
 //        Review reviewByReviewId = reviewDao.getReviewByReviewId("88789922-867b-4b9b-a7fd-0184804293aa");
 //        System.out.println(reviewByReviewId);
 //        CityDao cityDao = CityDao.getInstance();
