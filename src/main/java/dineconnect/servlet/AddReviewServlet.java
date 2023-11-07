@@ -54,7 +54,7 @@ public class AddReviewServlet extends HttpServlet {
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
 
-        if (comment != null && !comment.trim().isEmpty() && commentStars != null) {
+        if (comment != null && !comment.trim().isEmpty() && commentStars != null && !commentStars.trim().isEmpty()) {
             try {
                 business = businessDao.getBusinessByBusinessId(businessId);
                 Review review = new Review(String.valueOf(UUID.randomUUID()), comment, new Date(), new BigDecimal(commentStars), business, user);
