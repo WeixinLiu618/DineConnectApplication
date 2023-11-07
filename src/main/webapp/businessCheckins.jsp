@@ -30,6 +30,17 @@
                 <th>UserName</th>
             </tr>
             </thead>
+
+            <c:forEach items="${checkinList}" var="checkin" varStatus="status">
+                <tbody>
+                <tr>
+                    <td>${status.count}</td>
+                    <fmt:parseDate value="${checkin.getCheckInTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedCheckInTime"/>
+                    <td><fmt:formatDate value="${parsedCheckInTime}" pattern="MMMM dd, yyyy HH:mm:ss z"/></td>
+                    <td><c:out value="${checkin.getUser().getUserName()}"/></td>
+                </tr>
+                </tbody>
+            </c:forEach>
         </table>
     </div>
     <br><br>

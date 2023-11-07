@@ -31,6 +31,18 @@
                 <th>Username</th>
             </tr>
             </thead>
+
+            <c:forEach items="${tipList}" var="tip" varStatus="status">
+                <tbody>
+                <tr>
+                    <td>${status.count}</td>
+                    <td><c:out value="${tip.getText()}"/></td>
+                    <fmt:parseDate value="${tip.getCreatedTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedCreatedTime"/>
+                    <td><fmt:formatDate value="${parsedCreatedTime}" pattern="MMMM dd, yyyy HH:mm:ss z"/></td>
+                    <td><c:out value="${tip.getUser().getUserName()}"/></td>
+                </tr>
+                </tbody>
+            </c:forEach>
         </table>
     </div>
     <br><br>

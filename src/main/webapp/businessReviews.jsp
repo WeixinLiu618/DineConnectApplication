@@ -58,7 +58,7 @@
             <br>
             <textarea name="comment" rows="4" cols="50"></textarea>
             <br><br>
-            Comment Stars: <input type="text" name="commentStars" size="10">
+            Comment Stars: <input type="number" name="commentStars">
             <br><br>
             <input type="submit" value="Add Review"/>
         </form>
