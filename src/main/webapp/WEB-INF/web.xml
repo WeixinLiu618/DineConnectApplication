@@ -73,5 +73,15 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>BusinessReviewsServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.BusinessReviewsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BusinessReviewsServlet</servlet-name>
+        <url-pattern>/businessreviews</url-pattern>
+    </servlet-mapping>
+
+
 
 </web-app>

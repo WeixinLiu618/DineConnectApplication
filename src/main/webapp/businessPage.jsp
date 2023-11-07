@@ -34,6 +34,19 @@
                 <th>UpdateBusiness</th>
             </tr>
             </thead>
+            <tbody>
+            <tr>
+                <td><c:out value="${business.getBusinessName()}"/></td>
+                <td><c:out value="${business.getAddress()}"/></td>
+                <td><c:out value="${business.getCity().getPostalCode()}"/></td>
+
+                <td><c:out value="${business.getBusinessName()}"/></td>
+                <td><c:out value="${business.getAddress()}"/></td>
+                <td><c:out value="${business.getCity().getPostalCode()}"/></td>
+
+                <td><c:out value="${business.getSundayListedHours()}"/></td>
+            </tr>
+            </tbody>
         </table>
     </div>
     <br><br>
@@ -57,10 +70,10 @@
     <br><br>
 
     <div>
-        <form action="add promotion" method="post">
-            Start Time: <input type="text" name="startTime"/>
+        <form action="addpromotion" method="post">
+            Start Time: <input type="date" name="startTime"/>
             <br><br>
-            End Time: <input type="text" name="endTime">
+            End Time: <input type="date" name="endTime">
             <br><br>
             Event: <input type="text" name="event">
             <br><br>
