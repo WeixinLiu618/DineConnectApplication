@@ -38,7 +38,6 @@ public class AddReviewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO
         User user = null;
         Business business = null;
 
