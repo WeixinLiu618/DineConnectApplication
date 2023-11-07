@@ -8,13 +8,17 @@
 <head>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Business Reviews</title>
 </head>
 <body>
 
 <div class="container theme-showcase" role="main">
     <div class="text-right">
-        <p>Your Username: <c:out value="${user.getUserName()}"/></p>
+        <p>
+            <i class="fas fa-user"></i> <!-- User icon from Font Awesome -->
+            <c:out value="${user.getUserName()}"/>
+        </p>
     </div>
     <div class="jumbotron">
         <h1>Reviews of <c:out value="${business.getBusinessName()}"/></h1>
@@ -31,6 +35,19 @@
                 <th>Created Time</th>
             </tr>
             </thead>
+            <c:forEach items="${reviewList}" var="review" varStatus="status">
+                <tbody>
+                <tr>
+                    <td>${status.count}</td>
+                    <td><c:out value="${review.getComment()}"/></td>
+                    <fmt:formatNumber value="${review.getCommentStars()}" pattern="#.00" var="formattedStars" />
+                    <td><c:out value="${formattedStars}"/></td>
+                    <td><c:out value="${review.getUser().getUserName()}"/></td>
+                    <fmt:parseDate value="${review. getCreatedTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedEndTime"/>
+                    <td><fmt:formatDate value="${parsedEndTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                </tr>
+                </tbody>
+            </c:forEach>
         </table>
     </div>
     <br><br>
