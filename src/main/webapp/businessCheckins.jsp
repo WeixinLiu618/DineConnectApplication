@@ -46,7 +46,8 @@
     <br><br>
 
     <div>
-        <form action="add checkin" method="post">
+        <form action="addcheckin" method="post">
+            <input type="hidden" name="businessId" value="${business.getBusinessId()}">
             <input type="submit" value="Add Check-In"/>
         </form>
     </div>

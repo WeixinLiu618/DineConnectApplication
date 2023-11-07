@@ -82,6 +82,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>AddTipServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.AddTipServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTipServlet</servlet-name>
+        <url-pattern>/addtip</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>BusinessReviewsServlet</servlet-name>
         <servlet-class>dineconnect.servlet.BusinessReviewsServlet</servlet-class>
     </servlet>
@@ -107,6 +116,15 @@
     <servlet-mapping>
         <servlet-name>BusinessCheckinsServlet</servlet-name>
         <url-pattern>/businesscheckins</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddCheckinServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.AddCheckinServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddCheckinServlet</servlet-name>
+        <url-pattern>/addcheckin</url-pattern>
     </servlet-mapping>
 
 

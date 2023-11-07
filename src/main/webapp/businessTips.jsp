@@ -48,7 +48,8 @@
     <br><br>
 
     <div>
-        <form action="add tip" method="post">
+        <form action="addtip" method="post">
+            <input type="hidden" name="businessId" value="${business.getBusinessId()}">
             Text:
             <br>
             <textarea name="text" rows="4" cols="50"></textarea>
