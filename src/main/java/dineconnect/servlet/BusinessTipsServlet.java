@@ -4,6 +4,7 @@ import dineconnect.dal.BusinessDao;
 import dineconnect.dal.TipDao;
 import dineconnect.model.Business;
 import dineconnect.model.Tip;
+import dineconnect.model.User;
 
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,20 +31,31 @@ public class BusinessTipsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = null;
         String businessId = req.getParameter("businessId");
         Business business = null;
         List<Tip> tipList = new ArrayList<>();
+
+        HttpSession session = req.getSession();
+        Object userAttribute = session.getAttribute("user");
+
+        if (userAttribute != null) {
+            user = (User) userAttribute;
+        }
+        if (user == null) {
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        }
+
         try {
             business = businessDao.getBusinessByBusinessId(businessId);
             tipList = tipDao.getTipByBusinessId(businessId);
+            req.setAttribute("user", user);
+            req.setAttribute("business", business);
+            req.setAttribute("tipList",tipList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        if (business != null) {
-            req.setAttribute("business", business);
-            req.setAttribute("tipList", tipList);
-            req.getRequestDispatcher("/businessTips.jsp").forward(req, resp);
-        }
+        req.getRequestDispatcher("/businessTips.jsp").forward(req,resp);
     }
 
     @Override

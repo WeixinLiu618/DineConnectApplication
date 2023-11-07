@@ -2,6 +2,7 @@ package dineconnect.servlet;
 
 import dineconnect.dal.BusinessDao;
 import dineconnect.dal.CheckinDao;
+import dineconnect.dal.UserDao;
 import dineconnect.model.Business;
 import dineconnect.model.Checkin;
 import dineconnect.model.User;
@@ -14,30 +15,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-@WebServlet("/businesscheckins")
-public class BusinessCheckinsServlet extends HttpServlet {
+@WebServlet("/addcheckin")
+public class AddCheckinServlet extends HttpServlet {
+    protected UserDao userDao;
     protected BusinessDao businessDao;
     protected CheckinDao checkinDao;
 
     @Override
     public void init() throws ServletException {
+        userDao = UserDao.getInstance();
         businessDao = BusinessDao.getInstance();
-        checkinDao = checkinDao.getInstance();
+        checkinDao = CheckinDao.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = null;
-        String businessId = req.getParameter("businessId");
         Business business = null;
-        List<Checkin> checkinList = new ArrayList<>();
 
+        String businessId = req.getParameter("businessId");
         HttpSession session = req.getSession();
         Object userAttribute = session.getAttribute("user");
-
         if (userAttribute != null) {
             user = (User) userAttribute;
         }
@@ -47,14 +47,16 @@ public class BusinessCheckinsServlet extends HttpServlet {
 
         try {
             business = businessDao.getBusinessByBusinessId(businessId);
-            checkinList = checkinDao.getCheckinsByBusinessId(businessId);
+            Checkin checkin = new Checkin(new Date(), user, business);
+            checkin = checkinDao.create(checkin);
             req.setAttribute("user", user);
             req.setAttribute("business", business);
-            req.setAttribute("checkinList", checkinList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        req.getRequestDispatcher("/businessCheckins.jsp").forward(req, resp);
+
+        req.getRequestDispatcher("/businesscheckins").forward(req, resp);
+
     }
 
     @Override
