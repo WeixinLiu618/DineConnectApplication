@@ -91,6 +91,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>AddReviewServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.AddReviewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddReviewServlet</servlet-name>
+        <url-pattern>/addreview</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>BusinessCheckinsServlet</servlet-name>
         <servlet-class>dineconnect.servlet.BusinessCheckinsServlet</servlet-class>
     </servlet>
@@ -98,7 +108,6 @@
         <servlet-name>BusinessCheckinsServlet</servlet-name>
         <url-pattern>/businesscheckins</url-pattern>
     </servlet-mapping>
-
 
 
 </web-app>

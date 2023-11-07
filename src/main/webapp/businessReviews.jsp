@@ -53,12 +53,13 @@
     <br><br>
 
     <div>
-        <form action="add review" method="post">
+        <form action="addreview" method="post">
+            <input type="hidden" name="businessId" value="${business.getBusinessId()}">
             Comment:
             <br>
             <textarea name="comment" rows="4" cols="50"></textarea>
             <br><br>
-            Comment Stars: <input type="number" name="commentStars">
+            Comment Stars: <input type="number" name="commentStars" min="0" max="5" style="width: 5%">
             <br><br>
             <input type="submit" value="Add Review"/>
         </form>

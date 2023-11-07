@@ -14,20 +14,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author Weixin Liu
  */
-@WebServlet("/businessreviews")
 
-public class BusinessReviewsServlet extends HttpServlet {
+@WebServlet("/addreview")
+public class AddReviewServlet extends HttpServlet {
     protected UserDao userDao;
     protected BusinessDao businessDao;
     protected ReviewDao reviewDao;
-
 
     @Override
     public void init() throws ServletException {
@@ -38,32 +38,35 @@ public class BusinessReviewsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // TODO
         User user = null;
-        String businessId = req.getParameter("businessId");
         Business business = null;
-        List<Review> reviewList = new ArrayList<>();
 
+        String businessId = req.getParameter("businessId");
+        String comment = req.getParameter("comment");
+        String commentStars = req.getParameter("commentStars");
         HttpSession session = req.getSession();
         Object userAttribute = session.getAttribute("user");
-
         if (userAttribute != null) {
             user = (User) userAttribute;
         }
-        if(user == null) {
+        if (user == null) {
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
 
-        try {
-            business = businessDao.getBusinessByBusinessId(businessId);
-            reviewList = reviewDao.getReviewsByBusinessId(businessId);
-            req.setAttribute("user", user);
-            req.setAttribute("business", business);
-            req.setAttribute("reviewList",reviewList);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (comment != null && !comment.trim().isEmpty() && commentStars != null) {
+            try {
+                business = businessDao.getBusinessByBusinessId(businessId);
+                Review review = new Review(String.valueOf(UUID.randomUUID()), comment, new Date(), new BigDecimal(commentStars), business, user);
+                review = reviewDao.create(review);
+                req.setAttribute("user", user);
+                req.setAttribute("business", business);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
-        req.getRequestDispatcher("/businessReviews.jsp").forward(req,resp);
 
+        req.getRequestDispatcher("/businessreviews").forward(req, resp);
 
     }
 

@@ -78,7 +78,7 @@ public class UserPageServlet extends HttpServlet {
             if (isLatitudeInRange && isLongitudeInRange) {
                 try {
                     businessList = businessDao.getTopClosestBusiness(longitude, latitude);
-                    businessList.forEach(System.out::println);
+//                    businessList.forEach(System.out::println);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

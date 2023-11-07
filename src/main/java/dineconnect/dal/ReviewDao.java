@@ -41,6 +41,7 @@ public class ReviewDao {
             insertStmt.setBigDecimal(4, review.getCommentStars());
             insertStmt.setString(5, review.getBusiness().getBusinessId());
             insertStmt.setString(6, review.getUser().getUserId());
+            insertStmt.executeUpdate();
             return review;
         } catch (SQLException e) {
             e.printStackTrace();
