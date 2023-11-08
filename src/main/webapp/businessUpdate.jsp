@@ -6,53 +6,57 @@
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>Update Business</title>
 </head>
 <body>
-    <h1>Update Business</h1>
-    <form action="userupdate" method="post">
-        <p>
-            <label for="businessname">Business name:</label>
-            <input id="businessname" name="businessname" value="${fn:escapeXml(param.businessname)}">
-        </p>
-        <p>
-            <label for="address">Address:</label>
-            <input id="address" name="address" value="">
-        </p>
-        <p>
-            <label for="mondayhours">MondayListedHours:</label>
-            <input id="mondayhours" name="mondayhours" value="">
-        </p>
-        <p>
-            <label for="tuesdayhours">TuesdayListedHours:</label>
-            <input id="tuesdayhours" name="tuesdayhours" value="">
-        </p>
-        <p>
-            <label for="wednesdayhours">WednesdayListedHours:</label>
-            <input id="wednesdayhours" name="wednesdayhours" value="">
-        </p>
-        <p>
-            <label for="thursdayhours">ThursdayListedHours:</label>
-            <input id="thursdayhours" name="thursdayhours" value="">
-        </p>
-        <p>
-            <label for="fridayhours">FridayListedHours:</label>
-            <input id="fridayhours" name="fridayhours" value="">
-        </p>
-        <p>
-            <label for="saturdayhours">SaturdayListedHours:</label>
-            <input id="saturdayhours" name="saturdayhours" value="">
-        </p>
-        <p>
-            <label for="sundayhours">SundayListedHours:</label>
-            <input id="sundayhours" name="sundayhours" value="">
-        </p>
-        <p>
-            <input type="submit">
-        </p>
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h1>Update Business</h1>
+    </div>
+    <form action="updatebusiness" method="post">
+        <input type="hidden" name="businessId" value="${business.getBusinessId()}">
+
+        Business name:
+        <input id="businessName" name="businessName" value="${business.getBusinessName()}">
+        <br>
+        <br>
+        Address:
+        <input id="address" name="address" value="${business.getAddress()}" size="30">
+        <br>
+        <br>
+        MondayListedHours:
+        <input id="mondayListedHours" name="mondayListedHours" value="${business.getMondayListedHours()}">
+        <br>
+        <br>
+        TuesdayListedHours:
+        <input id="tuesdayListedHours" name="tuesdayListedHours" value="${business.getTuesdayListedHours()}">
+        <br>
+        <br>
+        WednesdayListedHours:
+        <input id="wednesdayhours" name="wednesdayhours" value="${business.getWednesdayListedHours()}">
+        <br>
+        <br>
+        ThursdayListedHours:
+        <input id="thursdayListedHours" name="thursdayListedHours" value="${business.getThursdayListedHours()}">
+        <br>
+        <br>
+        FridayListedHours:
+        <input id="fridayListedHours" name="fridayListedHours" value="${business.getFridayListedHours()}">
+        <br>
+        <br>
+        SaturdayListedHours:
+        <input id="saturdayListedHour" name="saturdayListedHour" value="${business.getSaturdayListedHours()}">
+        <br>
+        <br>
+        SundayListedHours:
+        <input id="sundayListedHours" name="sundayListedHours" value="${business.getSundayListedHours()}">
+        <br>
+        <br>
+        <input type="submit" value="update">
+
     </form>
     <br/><br/>
-    <p>
+</div>
 </body>
 </html>

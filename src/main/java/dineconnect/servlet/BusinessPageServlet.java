@@ -93,7 +93,6 @@ public class BusinessPageServlet extends HttpServlet {
 
         req.setAttribute("promotionList", promotionList);
 
-        System.out.println(business);
         if(business != null) {
             req.getRequestDispatcher("/businessPage.jsp").forward(req, resp);
         }else {

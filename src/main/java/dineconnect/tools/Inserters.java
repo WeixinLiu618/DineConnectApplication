@@ -25,6 +25,9 @@ public class Inserters {
 //        User weixin1 = new User(String.valueOf(UUID.randomUUID()), "weixin1", new Date());
         User user = userDao.getUserByUserId("__FzScrH7kzHXdZpS_wjfA");
         Business business = businessDao.getBusinessByBusinessId("_tADqh3OmH6CzGJWKkru3g");
+        business.setBusinessName("Modoo");
+        Business business1 = businessDao.updateBusiness(business);
+        System.out.println(business);
 //        Checkin checkin = checkinDao.create(new Checkin(new Date(), user, business));
 //        System.out.println(checkin);
 //        Tip tip = new Tip("Close from 2022-01-01", new Date(), user, business);
