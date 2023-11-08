@@ -30,10 +30,12 @@ public class DeleteReviewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String reviewId = req.getParameter("reviewId");
         try {
-            Review reviewByReviewId = reviewDao.getReviewByReviewId(reviewId);
-            String userId = reviewByReviewId.getUser().getUserId();
-            req.setAttribute("userid", userId);
-            reviewDao.delete(reviewByReviewId);
+            Review toDeleteReview = reviewDao.getReviewByReviewId(reviewId);
+            if (toDeleteReview != null) {
+                String userId = toDeleteReview.getUser().getUserId();
+                req.setAttribute("userid", userId);
+                reviewDao.delete(toDeleteReview);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

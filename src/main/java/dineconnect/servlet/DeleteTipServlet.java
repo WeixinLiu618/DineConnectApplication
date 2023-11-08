@@ -28,12 +28,14 @@ public class DeleteTipServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       String tipId = req.getParameter("tipId");
+        String tipId = req.getParameter("tipId");
         try {
-            Tip tipByTipId = tipDao.getTipByTipId(Integer.parseInt(tipId));
-            String userId = tipByTipId.getUser().getUserId();
-            req.setAttribute("userid", userId);
-            tipDao.delete(tipByTipId);
+            Tip toDeleteTip = tipDao.getTipByTipId(Integer.parseInt(tipId));
+            if (toDeleteTip != null) {
+                String userId = toDeleteTip.getUser().getUserId();
+                req.setAttribute("userid", userId);
+                tipDao.delete(toDeleteTip);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

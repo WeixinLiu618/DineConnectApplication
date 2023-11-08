@@ -46,10 +46,12 @@ public class DeletePromotionServlet extends HttpServlet {
             }
         }
         try {
-            Promotion promotion = promotionDao.getPromotionByPromotionId(promotionId);
-            req.setAttribute("businessId", businessId);
-            session.setAttribute("business", business);
-            promotionDao.delete(promotion);
+            Promotion toDeletePromotion = promotionDao.getPromotionByPromotionId(promotionId);
+            if (toDeletePromotion != null) {
+                req.setAttribute("businessId", businessId);
+                session.setAttribute("business", business);
+                promotionDao.delete(toDeletePromotion);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
