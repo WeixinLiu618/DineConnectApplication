@@ -32,6 +32,38 @@ public class AddPromotionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // This should only display the form to the user,
+        // remove the business logic for creating a promotion.
+
+        String businessId = req.getParameter("businessId");
+        if (businessId == null) {
+            // Handle the case where business ID is not provided
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        try {
+            Business business = businessDao.getBusinessByBusinessId(businessId);
+            if (business == null) {
+                // Business not found, redirect to login
+                resp.sendRedirect(req.getContextPath() + "/login.jsp");
+                return;
+            }
+            req.setAttribute("businessId", business.getBusinessId());
+            // Pass the promotions list to the JSP
+//            req.setAttribute("promotionsList", promotionDao.getPromotionsByBusinessId(businessId));
+        } catch (SQLException e) {
+            // Log error and handle it properly
+            req.setAttribute("errorMessage", "Database error: " + e.getMessage());
+        }
+
+        req.getRequestDispatcher("/businesspage").forward(req, resp);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         Business business = null;
         String businessId = req.getParameter("businessId");
         String startTimeString = req.getParameter("startTime");
@@ -45,7 +77,7 @@ public class AddPromotionServlet extends HttpServlet {
         }
         // if current business is null, dispatch to login page
         if (business == null) {
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
         }
 
         if (startTimeString != null && !startTimeString.trim().isEmpty()
@@ -57,19 +89,16 @@ public class AddPromotionServlet extends HttpServlet {
                 Date endTime = dateFormat.parse(endTimeString);
                 Promotion promotion = new Promotion(business, startTime, endTime, event);
                 promotionDao.create(promotion);
-                req.setAttribute("business", business);
+                resp.sendRedirect(req.getContextPath() + "/businesspage?businessId=" + businessId);
             } catch (ParseException e) {
                 e.printStackTrace();
+                doGet(req, resp);
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                doGet(req, resp);
             }
+        }else {
+            doGet(req, resp);
         }
-        req.getRequestDispatcher("/businesspage").forward(req, resp);
 
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.doGet(req, resp);
     }
 }

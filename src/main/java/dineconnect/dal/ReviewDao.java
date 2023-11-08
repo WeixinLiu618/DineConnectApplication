@@ -103,7 +103,7 @@ public class ReviewDao {
     public List<Review> getReviewsByUserId(String userId) throws SQLException {
         BusinessDao businessDao = BusinessDao.getInstance();
         UserDao userDao = UserDao.getInstance();
-        String selectReviewByUserIdSQL = "SELECT * FROM Reviews WHERE Reviews.UserId=?;";
+        String selectReviewByUserIdSQL = "SELECT * FROM Reviews WHERE Reviews.UserId=? ORDER BY CreatedTime;";
 
         Connection connection = null;
         PreparedStatement selectStmt = null;
@@ -147,7 +147,7 @@ public class ReviewDao {
     public List<Review> getReviewsByBusinessId(String businessId) throws SQLException {
         BusinessDao businessDao = BusinessDao.getInstance();
         UserDao userDao = UserDao.getInstance();
-        String selectReviewsByBusinessIdSQL = "SELECT * FROM Reviews WHERE Reviews.BusinessId=?;";
+        String selectReviewsByBusinessIdSQL = "SELECT * FROM Reviews WHERE Reviews.BusinessId=? ORDER BY CreatedTime;";
 
         Connection connection = null;
         PreparedStatement selectStmt = null;

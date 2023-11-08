@@ -42,6 +42,47 @@ public class AddReviewServlet extends HttpServlet {
         Business business = null;
 
         String businessId = req.getParameter("businessId");
+        String userId = req.getParameter("userId");
+        if (userId == null) {
+            // Handle the case where business ID is not provided
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        try {
+            user = userDao.getUserByUserId(userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        try {
+            business = businessDao.getBusinessByBusinessId(businessId);
+            if (business == null) {
+                resp.sendRedirect(req.getContextPath() + "/login.jsp");
+                return;
+            }
+
+            req.setAttribute("user", user);
+            req.setAttribute("business", business);
+            req.setAttribute("reviewList", reviewDao.getReviewsByBusinessId(businessId));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        req.getRequestDispatcher("/businessReviews.jsp").forward(req, resp);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = null;
+        Business business = null;
+
+        String businessId = req.getParameter("businessId");
         String comment = req.getParameter("comment");
         String commentStars = req.getParameter("commentStars");
         HttpSession session = req.getSession();
@@ -50,27 +91,21 @@ public class AddReviewServlet extends HttpServlet {
             user = (User) userAttribute;
         }
         if (user == null) {
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
         }
 
         if (comment != null && !comment.trim().isEmpty() && commentStars != null && !commentStars.trim().isEmpty()) {
             try {
                 business = businessDao.getBusinessByBusinessId(businessId);
                 Review review = new Review(String.valueOf(UUID.randomUUID()), comment, new Date(), new BigDecimal(commentStars), business, user);
-                review = reviewDao.create(review);
-                req.setAttribute("user", user);
-                req.setAttribute("business", business);
+                reviewDao.create(review);
+                resp.sendRedirect(req.getContextPath() + "/businessreviews?businessId=" + businessId + "&userId=" + user.getUserId());
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                doGet(req, resp);
             }
+        } else {
+            doGet(req, resp);
         }
 
-        req.getRequestDispatcher("/businessreviews").forward(req, resp);
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.doGet(req, resp);
     }
 }

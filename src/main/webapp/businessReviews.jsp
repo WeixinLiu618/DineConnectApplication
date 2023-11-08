@@ -55,6 +55,7 @@
     <div>
         <form action="addreview" method="post">
             <input type="hidden" name="businessId" value="${business.getBusinessId()}">
+            <input type="hidden" name="userId" value="${user.getUserId()}">
             Comment:
             <br>
             <textarea name="comment" rows="4" cols="50"></textarea>

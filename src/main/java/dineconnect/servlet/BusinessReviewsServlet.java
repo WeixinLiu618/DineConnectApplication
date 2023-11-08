@@ -38,19 +38,19 @@ public class BusinessReviewsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = null;
+        String userId = req.getParameter("userId");
         String businessId = req.getParameter("businessId");
+        User user = null;
         Business business = null;
         List<Review> reviewList = new ArrayList<>();
 
-        HttpSession session = req.getSession();
-        Object userAttribute = session.getAttribute("user");
-
-        if (userAttribute != null) {
-            user = (User) userAttribute;
+        try {
+            user = userDao.getUserByUserId(userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        if(user == null) {
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
         }
 
         try {
@@ -58,11 +58,11 @@ public class BusinessReviewsServlet extends HttpServlet {
             reviewList = reviewDao.getReviewsByBusinessId(businessId);
             req.setAttribute("user", user);
             req.setAttribute("business", business);
-            req.setAttribute("reviewList",reviewList);
+            req.setAttribute("reviewList", reviewList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        req.getRequestDispatcher("/businessReviews.jsp").forward(req,resp);
+        req.getRequestDispatcher("/businessReviews.jsp").forward(req, resp);
 
 
     }

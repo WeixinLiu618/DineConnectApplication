@@ -122,15 +122,15 @@
 
     <div>
         <form action="addpromotion" method="post">
-            <input type="hidden" name="businessId" value="${business.getBusinessId()}">
-            Start Time: <input type="date" name="startTime"/>
-            <br><br>
-            End Time: <input type="date" name="endTime">
-            <br><br>
-            Event: <input type="text" name="event">
-            <br><br>
-            <input type="submit" value="Add Promotion"/>
-        </form>
+        <input type="hidden" name="businessId" value="${business.getBusinessId()}">
+        Start Time: <input type="date" name="startTime"/>
+        <br><br>
+        End Time: <input type="date" name="endTime">
+        <br><br>
+        Event: <input type="text" name="event">
+        <br><br>
+        <input type="submit" value="Add Promotion"/>
+    </form>
     </div>
 
 </div>
