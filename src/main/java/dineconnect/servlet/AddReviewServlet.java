@@ -44,7 +44,7 @@ public class AddReviewServlet extends HttpServlet {
         String businessId = req.getParameter("businessId");
         String userId = req.getParameter("userId");
         if (userId == null) {
-            // Handle the case where business ID is not provided
+            // Handle the case where userId is not provided
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
@@ -54,6 +54,7 @@ public class AddReviewServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        // Handle the case where user is null
         if (user == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
@@ -66,14 +67,14 @@ public class AddReviewServlet extends HttpServlet {
                 return;
             }
 
-            req.setAttribute("user", user);
-            req.setAttribute("business", business);
-            req.setAttribute("reviewList", reviewDao.getReviewsByBusinessId(businessId));
+            req.setAttribute("userId", userId);
+            req.setAttribute("businessId", businessId);
+//            req.setAttribute("reviewList", reviewDao.getReviewsByBusinessId(businessId));
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        req.getRequestDispatcher("/businessReviews.jsp").forward(req, resp);
+        req.getRequestDispatcher("/businessreviews").forward(req, resp);
 
     }
 
@@ -83,15 +84,34 @@ public class AddReviewServlet extends HttpServlet {
         Business business = null;
 
         String businessId = req.getParameter("businessId");
+        String userId = req.getParameter("userId");
         String comment = req.getParameter("comment");
         String commentStars = req.getParameter("commentStars");
         HttpSession session = req.getSession();
         Object userAttribute = session.getAttribute("user");
-        if (userAttribute != null) {
-            user = (User) userAttribute;
+        if (userId == null) {
+            // Handle the case where userId is not provided
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        try {
+            user = userDao.getUserByUserId(userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         if (user == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
+        }
+        try {
+            user = userDao.getUserByUserId(userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        // Handle the case where user is null
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
         }
 
         if (comment != null && !comment.trim().isEmpty() && commentStars != null && !commentStars.trim().isEmpty()) {

@@ -50,7 +50,6 @@ public class AddPromotionServlet extends HttpServlet {
                 return;
             }
             req.setAttribute("businessId", business.getBusinessId());
-            // Pass the promotions list to the JSP
 //            req.setAttribute("promotionsList", promotionDao.getPromotionsByBusinessId(businessId));
         } catch (SQLException e) {
             // Log error and handle it properly
@@ -96,7 +95,7 @@ public class AddPromotionServlet extends HttpServlet {
             } catch (SQLException e) {
                 doGet(req, resp);
             }
-        }else {
+        } else {
             doGet(req, resp);
         }
 

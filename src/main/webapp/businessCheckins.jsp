@@ -53,6 +53,7 @@
     <div>
         <form action="addcheckin" method="post">
             <input type="hidden" name="businessId" value="${business.getBusinessId()}">
+            <input type="hidden" name="userId" value="${user.getUserId()}">
             <input type="submit" value="Add Check-In"/>
         </form>
     </div>

@@ -36,21 +36,32 @@ public class AddCheckinServlet extends HttpServlet {
         Business business = null;
 
         String businessId = req.getParameter("businessId");
-        HttpSession session = req.getSession();
-        Object userAttribute = session.getAttribute("user");
-        if (userAttribute != null) {
-            user = (User) userAttribute;
+        String userId = req.getParameter("userId");
+
+        if (userId == null) {
+            // Handle the case where business ID is not provided
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+        try {
+            user = userDao.getUserByUserId(userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         if (user == null) {
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
         }
 
         try {
             business = businessDao.getBusinessByBusinessId(businessId);
-            Checkin checkin = new Checkin(new Date(), user, business);
-            checkin = checkinDao.create(checkin);
-            req.setAttribute("user", user);
-            req.setAttribute("business", business);
+            if (business == null) {
+                resp.sendRedirect(req.getContextPath() + "/login.jsp");
+                return;
+            }
+
+            req.setAttribute("userId", userId);
+            req.setAttribute("businessId", businessId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -61,6 +72,36 @@ public class AddCheckinServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.doGet(req, resp);
+        User user = null;
+        Business business = null;
+
+        String businessId = req.getParameter("businessId");
+        String userId = req.getParameter("userId");
+        if (userId == null) {
+            // Handle the case where userId is not provided
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        try {
+            user = userDao.getUserByUserId(userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        // Handle the case where user is null
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        try {
+            business = businessDao.getBusinessByBusinessId(businessId);
+            Checkin checkin = new Checkin(new Date(), user, business);
+            checkin = checkinDao.create(checkin);
+            resp.sendRedirect(req.getContextPath() + "/businesscheckins?businessId=" + businessId + "&userId=" + user.getUserId());
+        } catch (SQLException e) {
+            doGet(req, resp);
+        }
+
     }
 }
