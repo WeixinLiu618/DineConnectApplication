@@ -3,7 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-src/main/java/dineconnect/dal/ConnectionManager.java
+**/src/main/java/dineconnect/dal/ConnectionManager.java
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
