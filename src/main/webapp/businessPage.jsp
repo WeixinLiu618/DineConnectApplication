@@ -17,38 +17,72 @@
         <h1>Welcome, <c:out value="${business.getBusinessName()}"/></h1>
     </div>
 
-    <div>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; width: 100%;">
         <h3>Business Information</h3>
+        <a style="font-size: x-large;margin-right: 40px;"
+           href="updatebusiness?businessId=<c:out value="${business.getBusinessId()}"/>">update</a>
     </div>
 
     <div id="businessInfo">
         <table class="table table-striped">
-            <thead>
             <tr>
                 <th>Business Name</th>
-                <th>Address</th>
-                <th>Postal Code</th>
-                <th>ByAppointmentOnly</th>
-                <th>Attire</th>
-                <th>Alcohol</th>
-                <th>UpdateBusiness</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
                 <td><c:out value="${business.getBusinessName()}"/></td>
-                <td><c:out value="${business.getAddress()}"/></td>
-                <td><c:out value="${business.getCity().getPostalCode()}"/></td>
-
-                <td><c:out value="${byAppointmentOnly}"/></td>
-                <td><c:out value="${attire}"/></td>
-                <td><c:out value="${alcohol}"/></td>
-                <td><a href="updatebusiness?businessId=<c:out value="${business.getBusinessId()}"/>">update</a></td>
             </tr>
-            </tbody>
+            <tr>
+                <th>Address</th>
+                <td><c:out value="${business.getAddress()}"/></td>
+            </tr>
+            <tr>
+                <th>Postal Code</th>
+                <td><c:out value="${business.getCity().getPostalCode()}"/></td>
+            </tr>
+
+            <tr>
+                <th>Monday</th>
+                <td><c:out value="${business.getMondayListedHours()}"/></td>
+            </tr>
+            <tr>
+                <th>Tuesday</th>
+                <td><c:out value="${business.getTuesdayListedHours()}"/></td>
+            </tr>
+            <tr>
+                <th>Wednesday</th>
+                <td><c:out value="${business.getWednesdayListedHours()}"/></td>
+
+            </tr>
+            <tr>
+                <th>Thursday</th>
+                <td><c:out value="${business.getThursdayListedHours()}"/></td>
+            </tr>
+            <tr>
+                <th>Friday</th>
+                <td><c:out value="${business.getFridayListedHours()}"/></td>
+            </tr>
+            <tr>
+                <th>Saturday</th>
+                <td><c:out value="${business.getSaturdayListedHours()}"/></td>
+            </tr>
+            <tr>
+                <th>Sunday</th>
+                <td><c:out value="${business.getSundayListedHours()}"/></td>
+            </tr>
+            <tr>
+                <th>By Appointment Only</th>
+                <td><c:out value="${byAppointmentOnly}"/></td>
+            </tr>
+            <tr>
+                <th>Attire</th>
+                <td><c:out value="${attire}"/></td>
+            </tr>
+            <tr>
+                <th>Alcohol</th>
+                <td><c:out value="${alcohol}"/></td>
+            </tr>
         </table>
     </div>
     <br><br>
+
 
     <div>
         <h3>Promotions List</h3>
@@ -70,11 +104,15 @@
                 <tr>
                     <td>${status.count}</td>
                     <td><c:out value="${promotion.getEvent()}"/></td>
-                    <fmt:parseDate value="${promotion.getStartTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedStartTime"/>
+                    <fmt:parseDate value="${promotion.getStartTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy"
+                                   var="parsedStartTime"/>
                     <td><fmt:formatDate value="${parsedStartTime}" pattern="MMMM dd, yyyy"/></td>
-                    <fmt:parseDate value="${promotion.getEndTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedEndTime"/>
+                    <fmt:parseDate value="${promotion.getEndTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy"
+                                   var="parsedEndTime"/>
                     <td><fmt:formatDate value="${parsedEndTime}" pattern="MMMM dd, yyyy"/></td>
-                    <td><a href="promotiondelete?promotionId=<c:out value="${promotion.getPromotionId()}"/>&businessId=${business.getBusinessId()}">delete</a></td>
+                    <td>
+                        <a href="promotiondelete?promotionId=<c:out value="${promotion.getPromotionId()}"/>&businessId=${business.getBusinessId()}">delete</a>
+                    </td>
                 </tr>
                 </tbody>
             </c:forEach>
