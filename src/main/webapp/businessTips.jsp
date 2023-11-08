@@ -8,13 +8,17 @@
 <head>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Business Tips</title>
 </head>
 <body>
 
 <div class="container theme-showcase" role="main">
     <div class="text-right">
-        <p>Your Username: <c:out value="${user.getUserName()}"/></p>
+        <p>
+            <i class="fas fa-user"></i> <!-- User icon from Font Awesome -->
+            <c:out value="${user.getUserName()}"/>
+        </p>
     </div>
 
     <div class="jumbotron">
@@ -37,7 +41,8 @@
                 <tr>
                     <td>${status.count}</td>
                     <td><c:out value="${tip.getText()}"/></td>
-                    <fmt:parseDate value="${tip.getCreatedTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedCreatedTime"/>
+                    <fmt:parseDate value="${tip.getCreatedTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy"
+                                   var="parsedCreatedTime"/>
                     <td><fmt:formatDate value="${parsedCreatedTime}" pattern="MMMM dd, yyyy HH:mm:ss z"/></td>
                     <td><c:out value="${tip.getUser().getUserName()}"/></td>
                 </tr>
