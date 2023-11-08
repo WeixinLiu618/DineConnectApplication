@@ -94,7 +94,8 @@ public class UserPageServlet extends HttpServlet {
         } else {
             String errorMessage = "Invalid User ID. Please try again.";
             messages.put("errorMessage", errorMessage);
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+//            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
         }
 
 

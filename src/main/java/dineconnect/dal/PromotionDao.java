@@ -67,6 +67,46 @@ public class PromotionDao {
         }
     }
 
+    public Promotion getPromotionByPromotionId(int promotionId) throws SQLException {
+        BusinessDao businessDao = BusinessDao.getInstance();
+        String selectPromotionByPromotionIdSQL = "SELECT * FROM Promotions WHERE PromotionId=?;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet result = null;
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectPromotionByPromotionIdSQL);
+            selectStmt.setInt(1, promotionId);
+            result = selectStmt.executeQuery();
+            if (result.next()) {
+                Date startTime = new Date(result.getTimestamp("StartTime").getTime());
+                Date endTime = new Date(result.getTimestamp("EndTime").getTime());
+                String event = result.getString("Event");
+                String businessId = result.getString("BusinessId");
+                Business business = businessDao.getBusinessByBusinessId(businessId);
+                Promotion promotion = new Promotion(promotionId, business, startTime, endTime, event);
+                return promotion;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+
+
+    }
+
     public List<Promotion> getPromotionsByBusinessId(String businessId) throws SQLException {
         BusinessDao businessDao = BusinessDao.getInstance();
         String selectPromotionByBusinessIdSQL = "SELECT * FROM Promotions WHERE BusinessId=?;";
@@ -106,5 +146,28 @@ public class PromotionDao {
         return promotionList;
     }
 
+    public Promotion delete(Promotion promotion) throws SQLException {
+        String deletePromotionSQL = "DELETE FROM Promotions WHERE PromotionId=?;";
+        Connection connection = null;
+        PreparedStatement deleteStmt = null;
+
+        try {
+            connection = connectionManager.getConnection();
+            deleteStmt = connection.prepareStatement(deletePromotionSQL);
+            deleteStmt.setInt(1, promotion.getPromotionId());
+            deleteStmt.executeUpdate();
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (deleteStmt != null) {
+                deleteStmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
 }

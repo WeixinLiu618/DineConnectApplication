@@ -38,8 +38,6 @@ public class UserHistoryServlet extends HttpServlet {
         reviewDao = ReviewDao.getInstance();
         tipDao = TipDao.getInstance();
         checkinDao = CheckinDao.getInstance();
-
-
     }
 
     @Override

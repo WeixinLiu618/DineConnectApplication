@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * @author Weixin Liu
  */
 @WebServlet("/reviewdelete")
-public class ReviewDeleteServlet extends HttpServlet {
+public class DeleteReviewServlet extends HttpServlet {
     protected ReviewDao reviewDao;
     protected UserDao userDao;
 

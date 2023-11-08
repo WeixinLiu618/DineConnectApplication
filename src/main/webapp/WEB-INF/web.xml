@@ -37,20 +37,20 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>ReviewDeleteServlet</servlet-name>
-        <servlet-class>dineconnect.servlet.ReviewDeleteServlet</servlet-class>
+        <servlet-name>DeleteReviewServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.DeleteReviewServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ReviewDeleteServlet</servlet-name>
+        <servlet-name>DeleteReviewServlet</servlet-name>
         <url-pattern>/reviewdelete</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>TipDeleteServlet</servlet-name>
-        <servlet-class>dineconnect.servlet.TipDeleteServlet</servlet-class>
+        <servlet-name>DeleteTipServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.DeleteTipServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>TipDeleteServlet</servlet-name>
+        <servlet-name>DeleteTipServlet</servlet-name>
         <url-pattern>/tipdelete</url-pattern>
     </servlet-mapping>
 
@@ -126,6 +126,26 @@
         <servlet-name>AddCheckinServlet</servlet-name>
         <url-pattern>/addcheckin</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddPromotionServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.AddPromotionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddPromotionServlet</servlet-name>
+        <url-pattern>/addpromotion</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeletePromotionServlet</servlet-name>
+        <servlet-class>dineconnect.servlet.DeletePromotionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeletePromotionServlet</servlet-name>
+        <url-pattern>/promotiondelete</url-pattern>
+    </servlet-mapping>
+
+
 
 
 </web-app>

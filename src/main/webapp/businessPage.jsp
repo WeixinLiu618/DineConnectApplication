@@ -58,6 +58,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>No.</th>
                 <th>Event</th>
                 <th>Start Time</th>
                 <th>End Time</th>
@@ -68,11 +69,12 @@
                 <tbody>
                 <tr>
                     <td>${status.count}</td>
+                    <td><c:out value="${promotion.getEvent()}"/></td>
                     <fmt:parseDate value="${promotion.getStartTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedStartTime"/>
                     <td><fmt:formatDate value="${parsedStartTime}" pattern="MMMM dd, yyyy"/></td>
                     <fmt:parseDate value="${promotion.getEndTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedEndTime"/>
                     <td><fmt:formatDate value="${parsedEndTime}" pattern="MMMM dd, yyyy"/></td>
-                    <td><c:out value="${promotion.getEvent()}"/></td>
+                    <td><a href="promotiondelete?promotionId=<c:out value="${promotion.getPromotionId()}"/>&businessId=${business.getBusinessId()}">delete</a></td>
                 </tr>
                 </tbody>
             </c:forEach>
@@ -82,6 +84,7 @@
 
     <div>
         <form action="addpromotion" method="post">
+            <input type="hidden" name="businessId" value="${business.getBusinessId()}">
             Start Time: <input type="date" name="startTime"/>
             <br><br>
             End Time: <input type="date" name="endTime">

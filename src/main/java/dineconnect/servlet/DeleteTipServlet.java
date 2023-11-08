@@ -2,7 +2,6 @@ package dineconnect.servlet;
 
 import dineconnect.dal.TipDao;
 import dineconnect.dal.UserDao;
-import dineconnect.model.Review;
 import dineconnect.model.Tip;
 
 import javax.servlet.ServletException;
@@ -17,7 +16,7 @@ import java.sql.SQLException;
  * @author Weixin Liu
  */
 @WebServlet("/tipdelete")
-public class TipDeleteServlet extends HttpServlet {
+public class DeleteTipServlet extends HttpServlet {
     protected TipDao tipDao;
     protected UserDao userDao;
 
