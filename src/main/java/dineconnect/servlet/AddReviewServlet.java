@@ -66,11 +66,8 @@ public class AddReviewServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
             }
-
             req.setAttribute("userId", userId);
             req.setAttribute("businessId", businessId);
-//            req.setAttribute("reviewList", reviewDao.getReviewsByBusinessId(businessId));
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -87,22 +84,13 @@ public class AddReviewServlet extends HttpServlet {
         String userId = req.getParameter("userId");
         String comment = req.getParameter("comment");
         String commentStars = req.getParameter("commentStars");
-        HttpSession session = req.getSession();
-        Object userAttribute = session.getAttribute("user");
+
         if (userId == null) {
             // Handle the case where userId is not provided
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
-        try {
-            user = userDao.getUserByUserId(userId);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        if (user == null) {
-            resp.sendRedirect(req.getContextPath() + "/login.jsp");
-        }
         try {
             user = userDao.getUserByUserId(userId);
         } catch (SQLException e) {

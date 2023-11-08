@@ -55,6 +55,7 @@
     <div>
         <form action="addtip" method="post">
             <input type="hidden" name="businessId" value="${business.getBusinessId()}">
+            <input type="hidden" name="userId" value="${user.getUserId()}">
             Text:
             <br>
             <textarea name="text" rows="4" cols="50"></textarea>
