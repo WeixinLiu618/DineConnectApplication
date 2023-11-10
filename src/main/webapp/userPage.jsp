@@ -24,8 +24,10 @@
     <div>
         <form action="userpage" method="post">
             <input type="hidden" name="userId" value="${user.getUserId()}">
-            longitude: <input type="text" name="longitude"/>
-            latitude: <input type="text" name="latitude">
+            longitude(-180 to 180): <input type="text" name="longitude"/>
+            &nbsp
+            latitude(-90 to 90): <input type="text" name="latitude">
+            &nbsp
             <input type="submit" value="Search Nearby Restaurants"/>
         </form>
     </div>
@@ -51,14 +53,23 @@
                 <tr>
                     <td>${status.count}</td>
                     <td><c:out value="${business.getBusinessName()}"/></td>
-                    <fmt:formatNumber value="${business.getBusinessStars()}" pattern="#.00" var="formattedRating" />
+                    <fmt:formatNumber value="${business.getBusinessStars()}" pattern="#.00" var="formattedRating"/>
                     <td><c:out value="${formattedRating}"/></td>
                     <td><c:out value="${business.getAddress()}"/></td>
-                    <td><a href="businesslistedhours?businessId=<c:out value="${business.getBusinessId()}"/>">Listed Hours</a></td>
-                    <td><a href="businesspromotions?businessId=<c:out value="${business.getBusinessId()}"/>">promotions</a></td>
-                    <td><a href="businessreviews?businessId=<c:out value="${business.getBusinessId()}"/>&userId=${user.getUserId()}">reviews</a></td>
-                    <td><a href="businesstips?businessId=<c:out value="${business.getBusinessId()}"/>&userId=${user.getUserId()}">tips</a></td>
-                    <td><a href="businesscheckins?businessId=<c:out value="${business.getBusinessId()}"/>&userId=${user.getUserId()}">checkins</a></td>
+                    <td><a href="businesslistedhours?businessId=<c:out value="${business.getBusinessId()}"/>">Listed
+                        Hours</a></td>
+                    <td>
+                        <a href="businesspromotions?businessId=<c:out value="${business.getBusinessId()}"/>">promotions</a>
+                    </td>
+                    <td>
+                        <a href="businessreviews?businessId=<c:out value="${business.getBusinessId()}"/>&userId=${user.getUserId()}">reviews</a>
+                    </td>
+                    <td>
+                        <a href="businesstips?businessId=<c:out value="${business.getBusinessId()}"/>&userId=${user.getUserId()}">tips</a>
+                    </td>
+                    <td>
+                        <a href="businesscheckins?businessId=<c:out value="${business.getBusinessId()}"/>&userId=${user.getUserId()}">checkins</a>
+                    </td>
                 </tr>
                 </tbody>
             </c:forEach>
