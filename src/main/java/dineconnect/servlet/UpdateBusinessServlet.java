@@ -52,7 +52,7 @@ public class UpdateBusinessServlet extends HttpServlet {
         System.out.println(address);
         String mondayListedHours = req.getParameter("mondayListedHours");
         String tuesdayListedHours = req.getParameter("tuesdayListedHours");
-        String wednesdayListedHours = req.getParameter("WednesdayListedHours");
+        String wednesdayListedHours = req.getParameter("wednesdayListedHours");
         String thursdayListedHours = req.getParameter("thursdayListedHours");
         String fridayListedHours = req.getParameter("fridayListedHours");
         String saturdayListedHour = req.getParameter("saturdayListedHour");

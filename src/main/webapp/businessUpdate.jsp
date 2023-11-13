@@ -34,7 +34,7 @@
         <br>
         <br>
         WednesdayListedHours:
-        <input id="wednesdayhours" name="wednesdayhours" value="${business.getWednesdayListedHours()}">
+        <input id="wednesdayhours" name="wednesdayListedHours" value="${business.getWednesdayListedHours()}">
         <br>
         <br>
         ThursdayListedHours:
