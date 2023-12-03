@@ -6,9 +6,9 @@
 
 <html>
 <head>
-    <link href="css/dineconnect.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dineconnect.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Business Check-Ins</title>
 </head>
@@ -22,8 +22,8 @@
         </p>
     </div>
 
-    <div class="jumbotron">
-        <h1>Check-Ins of <c:out value="${business.getBusinessName()}"/></h1>
+    <div id="banner" class="jumbotron">
+        <h2>Check-Ins of <c:out value="${business.getBusinessName()}"/></h2>
     </div>
 
     <div id="businessCheckins">
@@ -55,7 +55,7 @@
         <form action="addcheckin" method="post">
             <input type="hidden" name="businessId" value="${business.getBusinessId()}">
             <input type="hidden" name="userId" value="${user.getUserId()}">
-            <input type="submit" value="Add Check-In"/>
+            <input type="submit" class="submitbutton" value="Add Check-In"/>
         </form>
     </div>
 

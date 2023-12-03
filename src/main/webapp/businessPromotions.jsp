@@ -6,16 +6,16 @@
 
 <html>
 <head>
-    <link href="css/dineconnect.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dineconnect.css" rel="stylesheet">
     <title>Business Promotions</title>
 </head>
 <body>
 
 <div class="container theme-showcase" role="main">
-    <div class="jumbotron">
-        <h1>Promotions of <c:out value="${business.getBusinessName()}"/></h1>
+    <div id="banner" class="jumbotron">
+        <h2>Promotions of <c:out value="${business.getBusinessName()}"/></h2>
     </div>
 
     <div id="businessPromotions">

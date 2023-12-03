@@ -1,27 +1,45 @@
 
 body {
-    background-color: #8c6b3b;
+    font-family: "Andale Mono", sans-serif;
+    background-color: #ECF9FF;
+
 }
 
 h1 {
-    font-family: "Andale Mono", sans-serif;
-    font-weight: bolder;
-    color: #22668D;
+    font-weight: bold;
+    color: #ECF9FF;
 }
+
 h2 {
-    font-family: "Andale Mono",serif;
-    color: #22668D;
+    color: #ECF9FF;
 }
+
+h3 {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #22668D;
+
+}
+
+
 
 
 #banner {
-    background-color: #FFCC70;
+    background-color: #22668D;
 }
 
 form {
     font-family: 'Trebuchet MS', sans-serif;
     color: #22668D;
 }
+
+table {
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+thead {
+    font-weight: bold;
+}
+
 .input {
     border: transparent;
     border-radius: 3px;
@@ -35,6 +53,7 @@ form {
     color: #777;
 }
 
+/*login page*/
 .loginbutton {
     background-color: #f3f7fe;
     color: #22668D;
@@ -48,4 +67,61 @@ form {
     background-color: #8ECDDD;
     box-shadow: 0 0 0 3px #22668D;
     color: #fff;
+}
+
+
+
+/*userpage*/
+.submitbutton {
+    background-color: #8ECDDD;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    transition: .3s;
+}
+
+.submitbutton:hover {
+    background-color: #f3f7fe;
+    color: #22668D;
+    box-shadow: 0 0 0 3px #22668D;
+}
+
+.history{
+    font-family: 'Trebuchet MS', sans-serif;
+    background-image: linear-gradient(
+            to right,
+            #8ECDDD,
+            #8ECDDD 50%,
+            #ECF9FF 50%
+    );
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+
+
+.history:before{
+    content: '';
+    background: #8ECDDD;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.history:hover {
+    background-position: 0;
+}
+
+.history:hover::before{
+    width: 100%;
 }

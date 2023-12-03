@@ -7,19 +7,19 @@
 <html>
 <head>
     <!-- Bootstrap -->
-    <link href="css/dineconnect.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dineconnect.css" rel="stylesheet">
     <title>User Page</title>
 </head>
 <body>
 
 <div class="container theme-showcase" role="main">
-    <div class="jumbotron">
+    <div class="jumbotron" id="banner">
         <h1>Hi, <c:out value="${user.getUserName()}"/></h1>
         <fmt:parseDate value="${user.getYelpingSince()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedDate"/>
         <h2>You have yelped since <fmt:formatDate value="${parsedDate}" pattern="MMMM dd, yyyy"/></h2>
         <br>
-        <h4><a href="userhistory">History</a></h4>
+        <h4><a class="history" href="userhistory">History</a></h4>
     </div>
 
     <div>
@@ -29,7 +29,7 @@
             &nbsp
             latitude(-90 to 90): <input class="input" type="text" name="latitude">
             &nbsp
-            <input type="submit" value="Search Nearby Restaurants"/>
+            <input type="submit" class="submitbutton" value="Search Nearby Restaurants"/>
         </form>
     </div>
 

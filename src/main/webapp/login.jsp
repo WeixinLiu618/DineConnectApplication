@@ -7,9 +7,8 @@
 <html>
 <head>
     <!-- Bootstrap -->
-    <link href="css/dineconnect.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="css/dineconnect.css" rel="stylesheet">
     <title>Login</title>
 </head>
 <body>

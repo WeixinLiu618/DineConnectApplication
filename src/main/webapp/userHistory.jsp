@@ -6,13 +6,13 @@
 <html>
 <head>
     <!-- Bootstrap -->
-    <link href="css/dineconnect.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dineconnect.css" rel="stylesheet">
     <title>User History</title>
 </head>
 <body>
 <div class="container theme-showcase" role="main">
-    <div class="jumbotron">
+    <div class="jumbotron" id="banner" >
 <%--        <h2>${user.getUserId()}</h2>--%>
         <h2>User History for ${user.getUserName()}</h2>
     </div>

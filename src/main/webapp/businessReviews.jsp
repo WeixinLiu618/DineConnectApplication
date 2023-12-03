@@ -6,9 +6,9 @@
 
 <html>
 <head>
-    <link href="css/dineconnect.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dineconnect.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Business Reviews</title>
 </head>
@@ -21,8 +21,8 @@
             <c:out value="${user.getUserName()}"/>
         </p>
     </div>
-    <div class="jumbotron">
-        <h1>Reviews of <c:out value="${business.getBusinessName()}"/></h1>
+    <div id="banner" class="jumbotron">
+        <h2>Reviews of <c:out value="${business.getBusinessName()}"/></h2>
     </div>
 
     <div id="businessListedHours">
@@ -41,10 +41,11 @@
                 <tr>
                     <td>${status.count}</td>
                     <td><c:out value="${review.getComment()}"/></td>
-                    <fmt:formatNumber value="${review.getCommentStars()}" pattern="#.00" var="formattedStars" />
+                    <fmt:formatNumber value="${review.getCommentStars()}" pattern="#.00" var="formattedStars"/>
                     <td><c:out value="${formattedStars}"/></td>
                     <td><c:out value="${review.getUser().getUserName()}"/></td>
-                    <fmt:parseDate value="${review. getCreatedTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy" var="parsedEndTime"/>
+                    <fmt:parseDate value="${review. getCreatedTime()}" pattern="EEE MMM dd HH:mm:ss z yyyy"
+                                   var="parsedEndTime"/>
                     <td><fmt:formatDate value="${parsedEndTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 </tr>
                 </tbody>
@@ -63,7 +64,7 @@
             <br><br>
             Comment Stars: <input type="number" name="commentStars" min="0" max="5" style="width: 5%">
             <br><br>
-            <input type="submit" value="Add Review"/>
+            <input type="submit" class="submitbutton" value="Add Review"/>
         </form>
     </div>
 

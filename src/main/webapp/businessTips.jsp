@@ -6,9 +6,9 @@
 
 <html>
 <head>
-    <link href="css/dineconnect.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dineconnect.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Business Tips</title>
 </head>
@@ -22,8 +22,8 @@
         </p>
     </div>
 
-    <div class="jumbotron">
-        <h1>Tips of <c:out value="${business.getBusinessName()}"/></h1>
+    <div id="banner" class="jumbotron">
+        <h2>Tips of <c:out value="${business.getBusinessName()}"/></h2>
     </div>
 
     <div id="businessTips">
@@ -61,7 +61,7 @@
             <br>
             <textarea name="text" rows="4" cols="50"></textarea>
             <br><br>
-            <input type="submit" value="Add Tip"/>
+            <input type="submit" class="submitbutton" value="Add Tip"/>
         </form>
     </div>
 
