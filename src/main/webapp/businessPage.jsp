@@ -6,21 +6,21 @@
 
 <html>
 <head>
-    <link href="css/dineconnect.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dineconnect.css" rel="stylesheet">
     <title>Business Page</title>
 </head>
 <body>
 
 <div class="container theme-showcase" role="main">
-    <div class="jumbotron">
+    <div id="banner" class="jumbotron">
         <h1>Welcome, <c:out value="${business.getBusinessName()}"/></h1>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: baseline; width: 100%;">
         <h3>Business Information</h3>
-        <a style="font-size: x-large;margin-right: 40px;"
+        <a style="font-size: x-large;margin-right: 40px;" class="updatelink"
            href="updatebusiness?businessId=<c:out value="${business.getBusinessId()}"/>">update</a>
     </div>
 
@@ -130,7 +130,7 @@
         <br><br>
         Event: <input type="text" name="event">
         <br><br>
-        <input type="submit" value="Add Promotion"/>
+        <input type="submit" class="submitbutton" value="Add Promotion"/>
     </form>
     </div>
 

@@ -6,14 +6,14 @@
 
 <html>
 <head>
-    <link href="css/dineconnect.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dineconnect.css" rel="stylesheet">
     <title>Update Business</title>
 </head>
 <body>
 <div class="container theme-showcase" role="main">
-    <div class="jumbotron">
-        <h1>Update Business</h1>
+    <div id="banner" class="jumbotron">
+        <h2>Update Business</h2>
     </div>
     <form action="updatebusiness" method="post">
         <input type="hidden" name="businessId" value="${business.getBusinessId()}">
@@ -54,7 +54,7 @@
         <input id="sundayListedHours" name="sundayListedHours" value="${business.getSundayListedHours()}">
         <br>
         <br>
-        <input type="submit" value="update">
+        <input type="submit" class="submitbutton" value="update">
 
     </form>
     <br/><br/>
