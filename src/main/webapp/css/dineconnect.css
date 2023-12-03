@@ -1,0 +1,51 @@
+
+body {
+    background-color: #8c6b3b;
+}
+
+h1 {
+    font-family: "Andale Mono", sans-serif;
+    font-weight: bolder;
+    color: #22668D;
+}
+h2 {
+    font-family: "Andale Mono",serif;
+    color: #22668D;
+}
+
+
+#banner {
+    background-color: #FFCC70;
+}
+
+form {
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #22668D;
+}
+.input {
+    border: transparent;
+    border-radius: 3px;
+    outline: none;
+    color: #0d0c22;
+    box-shadow: 0 0 2px #f3f7fe, 0 0 0 2px #8ECDDD;
+    transition: .3s ease;
+}
+
+.input::placeholder {
+    color: #777;
+}
+
+.loginbutton {
+    background-color: #f3f7fe;
+    color: #22668D;
+    border: none;
+    border-radius: 8px;
+    transition: .3s;
+}
+
+
+.loginbutton:hover {
+    background-color: #8ECDDD;
+    box-shadow: 0 0 0 3px #22668D;
+    color: #fff;
+}

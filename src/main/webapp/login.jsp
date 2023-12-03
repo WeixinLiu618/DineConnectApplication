@@ -7,25 +7,29 @@
 <html>
 <head>
     <!-- Bootstrap -->
+    <link href="css/dineconnect.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+
     <title>Login</title>
 </head>
 <body>
 <div class="container theme-showcase">
 
-    <div class="jumbotron">
+    <div id="banner" class="jumbotron">
         <h1>Welcome to DineConnect</h1>
     </div>
     <%--Form for user or business login--%>
     <form action="userpage" method="post">
-        Input your UserID: <input type="text" name="userId"/>
-        <input type="submit" name="userLogin" value="Login as User" style="margin-left: 10px;"/>
+        Input your UserID: <input class="input" type="text" name="userId"/>
+        <input class="loginbutton" type="submit" name="userLogin" value="Login as User" style="margin-left: 10px;"/>
         <div style="clear: both;"></div>
     </form>
+
     <br><br>
     <form action="businesspage" method="post">
-        Input your BusinessID: <input type="text" name="businessId"/>
-        <input type="submit" name="businessLogin" value="Login as Business" style="margin-left: 10px;"/>
+        Input your BusinessID: <input class="input" type="text" name="businessId"/>
+        <input class="loginbutton" type="submit" name="businessLogin" value="Login as Business"
+               style="margin-left: 10px;"/>
         <div style="clear: both;"></div>
     </form>
 

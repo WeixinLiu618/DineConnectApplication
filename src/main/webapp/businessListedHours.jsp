@@ -6,6 +6,7 @@
 
 <html>
 <head>
+    <link href="css/dineconnect.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>Business Listed Hours</title>

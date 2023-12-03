@@ -6,6 +6,7 @@
 <html>
 <head>
     <!-- Bootstrap -->
+    <link href="css/dineconnect.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>User History</title>
 </head>
@@ -16,7 +17,7 @@
         <h2>User History for ${user.getUserName()}</h2>
     </div>
 
-    <h2>Reviews</h2>
+    <h3>Reviews</h3>
     <div id="review-for-user">
         <table class="table table-striped">
             <thead>

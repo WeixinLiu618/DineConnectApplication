@@ -7,6 +7,7 @@
 <html>
 <head>
     <!-- Bootstrap -->
+    <link href="css/dineconnect.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>User Page</title>
 </head>
@@ -24,9 +25,9 @@
     <div>
         <form action="userpage" method="post">
             <input type="hidden" name="userId" value="${user.getUserId()}">
-            longitude(-180 to 180): <input type="text" name="longitude"/>
+            longitude(-180 to 180): <input class="input" type="text" name="longitude"/>
             &nbsp
-            latitude(-90 to 90): <input type="text" name="latitude">
+            latitude(-90 to 90): <input class="input" type="text" name="latitude">
             &nbsp
             <input type="submit" value="Search Nearby Restaurants"/>
         </form>
