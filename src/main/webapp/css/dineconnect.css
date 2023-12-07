@@ -51,23 +51,8 @@ thead {
 }
 
 /*login page*/
-.loginbutton {
-    background-color: #ECF9FF;
-    color: #22668D;
-    border: none;
-    border-radius: 5px;
-    transition: .3s;
-}
 
 
-.loginbutton:hover {
-    background-color: #8ECDDD;
-    box-shadow: 0 0 0 3px #22668D;
-    color: #fff;
-}
-
-
-/*userpage*/
 .submitbutton {
     background-color: #8ECDDD;
     color: #ECF9FF;
@@ -81,6 +66,8 @@ thead {
     color: #22668D;
     box-shadow: 0 0 0 3px #22668D;
 }
+
+/*userpage*/
 
 .history {
     font-family: 'Trebuchet MS', sans-serif;
